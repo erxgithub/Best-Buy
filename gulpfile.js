@@ -7,6 +7,10 @@ var browserify = require("browserify");
 var watchify = require("watchify");
 var babelify = require("babelify");
 
+var concat = require('gulp-concat');
+var uglifycss = require('gulp-uglifycss');
+var sass = require("gulp-sass");
+
 var browserSync = require("browser-sync").create();
 
 var ENTRY_FILE = "./src/js/index.js";
@@ -32,12 +36,26 @@ gulp.task("watch", function () {
     bundle();
 });
 
+// sass/scss file conversion
+
+gulp.task('scss', function () {
+    return gulp.src('./src/scss/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(concat('build.css'))
+        .pipe(uglifycss())
+        .pipe(gulp.dest('./build/css/'));
+});
+
 gulp.task("serve", function () {
     browserSync.init({
         server: {
             baseDir: "./build"
         }
     });
+
+    gulp.watch('./src/scss/*.scss', ['scss']);
+    gulp.watch(['./build/*.html', './build/css/*.css']).on('change', browserSync.reload);
 });
 
 gulp.task("default", [ "watch", "serve" ]);
+

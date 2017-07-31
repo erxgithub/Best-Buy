@@ -5,6 +5,7 @@ export default obj => {
         
         xhr.onload = () => {
             if (xhr.status >= 200 && xhr.status < 300) {
+                //console.log(xhr.response);
                 resolve(JSON.parse(xhr.response));
             } else {
                 reject(xhr.statusText);

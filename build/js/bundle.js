@@ -12,6 +12,7 @@ exports.default = function (obj) {
 
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
+                //console.log(xhr.response);
                 resolve(JSON.parse(xhr.response));
             } else {
                 reject(xhr.statusText);
@@ -44,6 +45,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var App = function () {
 	function App() {
 		_classCallCheck(this, App);
+
+		this.initBBCall();
 	}
 
 	_createClass(App, [{
@@ -51,6 +54,7 @@ var App = function () {
 		value: function initBBCall() {
 			(0, _bestbuy2.default)({ url: "https://api.bestbuy.com/v1/products", api: "8ccddf4rtjz5k5btqam84qak" }).then(function (data) {
 				/* fill carosel with products */
+				//console.log("data");
 			}).catch(function (error) {
 				console.log("warning Christopher Robins... Error");
 				console.log(error);
