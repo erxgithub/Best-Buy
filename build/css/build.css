@@ -1,1 +1,1 @@
-h2{font-size:5rem}
+@charset "UTF-8";.Wallop{max-width:480px}.Wallop-list{margin:15px 0}.Wallop-item img{height:50vh;width:100%}.Wallop{position:relative}.Wallop-list{position:relative;overflow:hidden}.Wallop-item{visibility:hidden;position:absolute;top:0;left:0;width:100%}.Wallop-item--current{visibility:visible;position:relative}

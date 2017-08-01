@@ -1,3 +1,5 @@
+// gulpfile.js (Eric Gregor)
+
 var gulp = require("gulp");
 var gutil = require("gulp-util");
 var notify = require('gulp-notify');
@@ -6,12 +8,15 @@ var buffer = require('vinyl-buffer');
 var browserify = require("browserify");
 var watchify = require("watchify");
 var babelify = require("babelify");
-
 var concat = require('gulp-concat');
 var uglifycss = require('gulp-uglifycss');
 var sass = require("gulp-sass");
 
 var browserSync = require("browser-sync").create();
+
+//var $ = require("jquery");
+
+// ES6 babel compiler
 
 var ENTRY_FILE = "./src/js/index.js";
 var OUTPUT_DIR = "./build/js";
@@ -46,6 +51,8 @@ gulp.task('scss', function () {
         .pipe(gulp.dest('./build/css/'));
 });
 
+// browser sync, static server
+
 gulp.task("serve", function () {
     browserSync.init({
         server: {
@@ -58,4 +65,3 @@ gulp.task("serve", function () {
 });
 
 gulp.task("default", [ "watch", "serve" ]);
-
