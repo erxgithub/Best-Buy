@@ -1,5 +1,5 @@
 import $ from "jquery";
-import Wallop from 'Wallop';
+import Flickity from 'flickity';
 
 export class Carousel {
 	constructor (result) {
@@ -13,9 +13,14 @@ export class Carousel {
 
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-		//let wallopCount = $('.Wallop-item').length;
+		//if ($('.carousel-cell').length > 0) {
+		//	var $carousel = $('.carousel').flickity();
+		//	$carousel.flickity('destroy');
+		//}
 
-		$('.Wallop-item').remove();
+		//$('.carousel-cell').remove();
+		//let y = $('.carousel').flickity();
+		//y.flickity('destroy');
 
 		// insert new content
 
@@ -24,15 +29,18 @@ export class Carousel {
 	  			this.product["productId"] = 'product' + (i+1).toString();
 				this.product["item"] = this.result.products[i];
 
-				$('.Wallop-list').append('<div id="' + this.product["productId"] + '" class="Wallop-item"></div>');
+				$('.carousel').append('<div id="' + this.product["productId"] + '" class="carousel-cell"></div>');
 
 				this.updateProduct();
 		}
-		
-		//if (wallopCount == 0) {
-			let wallopEl = document.querySelector('.Wallop');
-			let wallop = new Wallop(wallopEl);
-		//}
+
+		let elem = document.querySelector('.carousel');
+		//let flkty = new Flickity(elem);
+		let flkty = new Flickity( elem, {
+		  // options
+		  cellAlign: 'left',
+		  contain: true
+		});
 
 		//console.log(result);
 	}
@@ -47,7 +55,8 @@ export class Carousel {
 		$('#' + this.product["productId"] + ' img').attr("src", this.product["item"].largeImage);
 		$('#' + this.product["productId"]).append('<p></p>');
 		$('#' + this.product["productId"] + ' p:eq(2)').html('$' + this.product["item"].regularPrice);
-		$('#' + this.product["productId"]).append('<button type="button">Add to Cart</button>');
+		$('#' + this.product["productId"]).append('<button type="button" class="cart-button" data-sku="'
+			+ this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">Add to Cart</button>');
 	}
 };
 
