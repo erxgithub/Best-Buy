@@ -1,4 +1,3 @@
-
 .Wallop {
  	max-width: 480px;
 }
@@ -8,6 +7,20 @@
 }
 
 .Wallop-item img {
-	height: 50vh;
+	/*height: 50vh;*/
  	width: 100%;
+ 	/*padding: 3rem;*/
+}
+
+.nav-menu {
+	width: 100%;
+}
+
+.nav-menu p:hover {
+	text-decoration: underline;	
+}
+
+.nav-item {
+	width: 100%;
+	padding: 2rem 2rem 2rem 2rem;
 }

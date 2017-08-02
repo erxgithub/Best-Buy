@@ -10519,7 +10519,7 @@ exports.default = function (obj) {
 };
 
 },{}],4:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -10528,11 +10528,11 @@ exports.Carousel = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _jquery = require("jquery");
+var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _Wallop = require("Wallop");
+var _Wallop = require('Wallop');
 
 var _Wallop2 = _interopRequireDefault(_Wallop);
 
@@ -10546,38 +10546,40 @@ var Carousel = exports.Carousel = function () {
 
 		this.product = [];
 		this.result = result;
+
 		console.log(this.result);
 	}
 
 	_createClass(Carousel, [{
-		key: "getProducts",
+		key: 'getProducts',
 		value: function getProducts() {
 
 			// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-			//$('.story-box').remove();
+			//let wallopCount = $('.Wallop-item').length;
+
+			(0, _jquery2.default)('.Wallop-item').remove();
 
 			// insert new content
 
 			for (var i = 0; i < this.result.products.length; i++) {
 				this.product["productId"] = 'product' + (i + 1).toString();
+				this.product["item"] = this.result.products[i];
 
 				(0, _jquery2.default)('.Wallop-list').append('<div id="' + this.product["productId"] + '" class="Wallop-item"></div>');
 
-				//$('#clone').clone()
-				//	.attr({"id": productId})
-				//	.insertBefore('#clone');
-				this.product["item"] = this.result.products[i];
 				this.updateProduct();
 			}
 
+			//if (wallopCount == 0) {
 			var wallopEl = document.querySelector('.Wallop');
 			var wallop = new _Wallop2.default(wallopEl);
+			//}
 
 			//console.log(result);
 		}
 	}, {
-		key: "updateProduct",
+		key: 'updateProduct',
 		value: function updateProduct() {
 			//$('#' + productId).addClass('product-box'); // add class to help identify inserted content
 			(0, _jquery2.default)('#' + this.product["productId"]).append('<p></p>');
@@ -10605,7 +10607,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*import Cart from "./cart";*/
-//import $ from "jquery";
+
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
 
 var _bestbuy = require("./bestbuy");
 
@@ -10619,12 +10625,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var App = function () {
 	function App() {
+		var _this = this;
+
 		_classCallCheck(this, App);
 
 		this.baseUrl = 'https://api.bestbuy.com/v1/products';
 		this.apiKey = '8ccddf4rtjz5k5btqam84qak';
 
-		this.initBBCall();
+		//this.initBBCall();
+		//let x = this.initBBCall();
+
+		(0, _jquery2.default)(".nav-item").on("click", function (x) {
+			_this.initBBCall();
+			console.log("click");
+		});
 	}
 
 	_createClass(App, [{
@@ -10661,4 +10675,4 @@ exports.default = App;
 
 var x = new App();
 
-},{"./bestbuy":3,"./carousel":4}]},{},[5]);
+},{"./bestbuy":3,"./carousel":4,"jquery":2}]},{},[5]);

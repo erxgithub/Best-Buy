@@ -5,6 +5,7 @@ export class Carousel {
 	constructor (result) {
 		this.product = [];
 		this.result = result;
+
 		console.log(this.result);
 	}
 
@@ -12,25 +13,26 @@ export class Carousel {
 
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-		//$('.story-box').remove();
+		//let wallopCount = $('.Wallop-item').length;
+
+		$('.Wallop-item').remove();
 
 		// insert new content
 
 		for (let i = 0; i < this.result.products.length; i++)
 		{
 	  			this.product["productId"] = 'product' + (i+1).toString();
+				this.product["item"] = this.result.products[i];
 
 				$('.Wallop-list').append('<div id="' + this.product["productId"] + '" class="Wallop-item"></div>');
 
-				//$('#clone').clone()
-				//	.attr({"id": productId})
-				//	.insertBefore('#clone');
-				this.product["item"] = this.result.products[i];
 				this.updateProduct();
 		}
-
-		let wallopEl = document.querySelector('.Wallop');
-		let wallop = new Wallop(wallopEl);
+		
+		//if (wallopCount == 0) {
+			let wallopEl = document.querySelector('.Wallop');
+			let wallop = new Wallop(wallopEl);
+		//}
 
 		//console.log(result);
 	}
@@ -48,3 +50,4 @@ export class Carousel {
 		$('#' + this.product["productId"]).append('<button type="button">Add to Cart</button>');
 	}
 };
+

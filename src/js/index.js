@@ -1,5 +1,5 @@
 /*import Cart from "./cart";*/
-//import $ from "jquery";
+import $ from "jquery";
 
 import request from "./bestbuy";
 import {Carousel} from "./carousel";
@@ -9,7 +9,13 @@ export default class App {
 		this.baseUrl = 'https://api.bestbuy.com/v1/products';
 		this.apiKey = '8ccddf4rtjz5k5btqam84qak';
 
-		this.initBBCall();
+		//this.initBBCall();
+		//let x = this.initBBCall();
+
+		$(".nav-item").on("click", (x) => {
+			this.initBBCall();
+			console.log("click");
+		});
 	}
 
 	getUrl (category) {
