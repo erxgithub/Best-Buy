@@ -10,7 +10,9 @@ var watchify = require("watchify");
 var babelify = require("babelify");
 var concat = require('gulp-concat');
 var uglifycss = require('gulp-uglifycss');
+var uglify = require('gulp-uglify');
 var sass = require("gulp-sass");
+var pump = require('pump');
 
 var browserSync = require("browser-sync").create();
 
@@ -19,8 +21,8 @@ var browserSync = require("browser-sync").create();
 // ES6 babel compiler
 
 var ENTRY_FILE = "./src/js/index.js";
-var OUTPUT_DIR = "./build/js";
-var OUTPUT_FILE = "bundle.js";
+var OUTPUT_DIR = "./src/js";
+var OUTPUT_FILE = "babel.js";
 var DELAY = 50;
 
 gulp.task("watch", function () {
@@ -51,6 +53,18 @@ gulp.task('scss', function () {
         .pipe(gulp.dest('./build/css/'));
 });
 
+// js file conversion
+
+gulp.task('js', function(cb) {
+    pump([
+        gulp.src('./src/js/babel.js'),
+            concat('bundle.js'),
+            uglify(),
+            gulp.dest('./build/js/')
+        ],
+        cb);
+});
+
 // browser sync, static server
 
 gulp.task("serve", function () {
@@ -61,7 +75,8 @@ gulp.task("serve", function () {
     });
 
     gulp.watch('./src/scss/*.scss', ['scss']);
-    gulp.watch(['./build/*.html', './build/css/*.css']).on('change', browserSync.reload);
+    gulp.watch('./src/js/babel.js', ['js']);
+    gulp.watch(['./build/*.html', './build/css/*.css', './build/js/*.js']).on('change', browserSync.reload);
 });
 
 gulp.task("default", [ "watch", "serve" ]);

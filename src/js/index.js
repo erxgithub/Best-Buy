@@ -15,8 +15,11 @@ export default class App {
 		//this.initBBCall();
 		//let x = this.initBBCall();
 		//this.initBBCall();
+		this.cartEventListen();
 		this.categoryEventListen();
 		this.buttonEventListen();
+
+		this.updateItemCount();
 	}
 
 	getUrl () {
@@ -42,6 +45,53 @@ export default class App {
 		return url;
 	}
 
+	cartEventListen () {
+		$(".cart-desktop").on("click", (x) => {
+			console.log("cart click");
+
+			let skuKey = "";
+			let item = null;
+			let cartObj = null;
+			let lineNo = "";
+
+			$('.modal-item').remove();
+
+			for (let i = 0; i < sessionStorage.length; i++)
+			{
+				skuKey = sessionStorage.key(i);
+
+				item = sessionStorage.getItem(skuKey);
+				cartObj = JSON.parse(item);
+
+		  		lineNo = 'line' + (i+1).toString();
+
+				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex"><div>' + "SKU : " + skuKey + "</div><div>PRICE : $" + cartObj.price + "</div><div>QUANTITY : " + cartObj.qty + "</div><div>TOTAL : $" + cartObj.total + '</div></div>');
+
+				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
+			}
+
+			// Get the modal
+			let modal = document.getElementById('myModal');
+
+			// Get the <span> element that closes the modal
+			let span = document.getElementsByClassName("close")[0];
+
+			modal.style.display = "block";
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+			    modal.style.display = "none";
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+			    if (event.target == modal) {
+			        modal.style.display = "none";
+			    }
+			}
+		});
+	}
+
 	categoryEventListen () {
 		$(".nav-item").on("click", (x) => {
 			console.log($(x.target).text());
@@ -62,6 +112,33 @@ export default class App {
 			prod.price = $(x.target).data('price');
 			prod.addToCart();
 		});
+	}
+
+	updateItemCount () {
+		let skuKey = "";
+		let item = null;
+		let cartObj = null;
+		let itemCount = 0;
+
+		for (let i = 0; i < sessionStorage.length; i++)
+		{
+			skuKey = sessionStorage.key(i);
+
+			item = sessionStorage.getItem(skuKey);
+			cartObj = JSON.parse(item);
+
+			itemCount += cartObj.qty;
+		}
+
+		if (itemCount > 0) {
+			let x = document.getElementById("itemCount");
+
+			if (x.style.display != "block") {
+				x.style.display = "block";
+			}
+
+			x.textContent = itemCount.toString();
+		}
 	}
 
 	initBBCall () {

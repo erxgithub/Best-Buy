@@ -4,8 +4,33 @@
 		<link type="text/css" rel="stylesheet" href="./css/build.css" />
     </head>
     <body>
-        <h2>Testing ES6 + Babel</h2>
-        <b>Name :</b> <span id="nameSpan"></span>
+		<!-- logo, shopping cart, and top navigation menu -->
+		<header class="flex flex-justify-end header-desktop">
+		<!-- <div class="flex flex-justify-center" style="background: green; border-radius: 50%; height: 5rem; width: 5rem;"> -->
+			<div class="flex flex-justify-end cart-desktop">
+				<h4 id="itemCount" class="circle-desktop hidden-desktop">0</h4>
+			</div>
+		<!-- </div> -->
+		</header>
+		<section>
+			<!-- The Modal -->
+			<div id="myModal" class="modal">
+
+			  <!-- Modal content -->
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <span class="close">&times;</span>
+			      <h2>YOUR CART</h2>
+			    </div>
+			    <div class="modal-body">
+			    </div>
+			    <div class="modal-footer">
+			      <h3>Modal Footer</h3>
+			    </div>
+			  </div>
+
+			</div>
+		</section>
         <section>
         	<div class="nav-menu flex flex-justify-center">
         		<div>
@@ -33,6 +58,6 @@
 		<!-- bxSlider CSS file -->
 		<!-- <link href="css/jquery.bxslider.css" rel="stylesheet" /> -->
 		<!-- JavaScript -->
-        <script src="js/bundle.js"></script>
+        <script src="./js/bundle.js"></script>
     </body>
 </html>

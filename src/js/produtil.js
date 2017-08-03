@@ -35,6 +35,17 @@ export class ProdUtil {
 		item = sessionStorage.getItem(this.sku);
 		cartObj = JSON.parse(item);
 
+		let x = document.getElementById("itemCount");
+
+		if (x.style.display != "block") {
+			x.style.display = "block";
+		}
+
+		let itemCount = parseInt(x.textContent);
+		itemCount += 1;
+
+		x.textContent = itemCount.toString();
+
 		console.log("sku: " + this.sku + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
 	}
 };
