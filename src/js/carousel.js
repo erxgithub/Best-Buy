@@ -14,13 +14,12 @@ export class Carousel {
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
 
 		//if ($('.carousel-cell').length > 0) {
-		//	var $carousel = $('.carousel').flickity();
-		//	$carousel.flickity('destroy');
+		//	let elem = document.querySelector('.carousel');
+		//	let y = new Flickity(elem);
+		//	y.flickity('destroy');
 		//}
 
 		//$('.carousel-cell').remove();
-		//let y = $('.carousel').flickity();
-		//y.flickity('destroy');
 
 		// insert new content
 

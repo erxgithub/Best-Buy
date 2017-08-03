@@ -7,30 +7,34 @@ export class ProdUtil {
 	}
 
 	addToCart () {
-		console.log("sku: " + this.sku + ", price: " + this.price);
-
 		let cart = {
-			price: this.price,
-			qty: 1
+			price: 0,
+			qty: 0,
+			total: 0
 		}
 
-		let cartValue = sessionStorage.getItem(this.sku);
-		let item = null;
+		let item = sessionStorage.getItem(this.sku);
 		let cartObj = null;
 
-		if (cartValue == null) {
-			item = JSON.stringify(cart);
-			sessionStorage.setItem(this.sku, item);
-		} else {
-			cartObj = JSON.parse(cartValue);
-			cartObj.qty += 1;
-			item = JSON.stringify(cartObj);
-			sessionStorage.setItem(this.sku, item);
+		if (item == null) {
+			cart.price = this.price;
+			cart.qty = 1;
+			cart.total = cart.price * cart.qty;
+		}
+		else {
+			cartObj = JSON.parse(item);
+
+			cart.price = cartObj.price;
+			cart.qty = cartObj.qty + 1;
+			cart.total = cart.price * cart.qty;
 		}
 
-		cartValue = sessionStorage.getItem(this.sku);
-		cartObj = JSON.parse(cartValue);
+		item = JSON.stringify(cart);
+		sessionStorage.setItem(this.sku, item);
 
-		console.log(cartObj.price + " " + cartObj.qty);
+		item = sessionStorage.getItem(this.sku);
+		cartObj = JSON.parse(item);
+
+		console.log("sku: " + this.sku + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
 	}
 };

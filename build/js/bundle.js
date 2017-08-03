@@ -14230,13 +14230,12 @@ var Carousel = exports.Carousel = function () {
 			// remove any previously inserted content to make sure that it doesn't interfere with new content
 
 			//if ($('.carousel-cell').length > 0) {
-			//	var $carousel = $('.carousel').flickity();
-			//	$carousel.flickity('destroy');
+			//	let elem = document.querySelector('.carousel');
+			//	let y = new Flickity(elem);
+			//	y.flickity('destroy');
 			//}
 
 			//$('.carousel-cell').remove();
-			//let y = $('.carousel').flickity();
-			//y.flickity('destroy');
 
 			// insert new content
 
@@ -14420,31 +14419,34 @@ var ProdUtil = exports.ProdUtil = function () {
 	_createClass(ProdUtil, [{
 		key: "addToCart",
 		value: function addToCart() {
-			console.log("sku: " + this.sku + ", price: " + this.price);
-
 			var cart = {
-				price: this.price,
-				qty: 1
+				price: 0,
+				qty: 0,
+				total: 0
 			};
 
-			var cartValue = sessionStorage.getItem(this.sku);
-			var item = null;
+			var item = sessionStorage.getItem(this.sku);
 			var cartObj = null;
 
-			if (cartValue == null) {
-				item = JSON.stringify(cart);
-				sessionStorage.setItem(this.sku, item);
+			if (item == null) {
+				cart.price = this.price;
+				cart.qty = 1;
+				cart.total = cart.price * cart.qty;
 			} else {
-				cartObj = JSON.parse(cartValue);
-				cartObj.qty += 1;
-				item = JSON.stringify(cartObj);
-				sessionStorage.setItem(this.sku, item);
+				cartObj = JSON.parse(item);
+
+				cart.price = cartObj.price;
+				cart.qty = cartObj.qty + 1;
+				cart.total = cart.price * cart.qty;
 			}
 
-			cartValue = sessionStorage.getItem(this.sku);
-			cartObj = JSON.parse(cartValue);
+			item = JSON.stringify(cart);
+			sessionStorage.setItem(this.sku, item);
 
-			console.log(cartObj.price + " " + cartObj.qty);
+			item = sessionStorage.getItem(this.sku);
+			cartObj = JSON.parse(item);
+
+			console.log("sku: " + this.sku + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
 		}
 	}]);
 
