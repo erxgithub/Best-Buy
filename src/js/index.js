@@ -18,6 +18,8 @@ export default class App {
 		this.cartEventListen();
 		this.categoryEventListen();
 		this.buttonEventListen();
+		this.updateButtonEventListen();
+		this.removeButtonEventListen();
 
 		this.updateItemCount();
 	}
@@ -65,7 +67,11 @@ export default class App {
 
 		  		lineNo = 'line' + (i+1).toString();
 
-				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex"><div>' + "SKU : " + skuKey + "</div><div>PRICE : $" + cartObj.price + "</div><div>QUANTITY : " + cartObj.qty + "</div><div>TOTAL : $" + cartObj.total + '</div></div>');
+				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex"><div>' + 'SKU : ' + skuKey
+				 	+ '</div><div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.qty + '"></div><div>TOTAL : $' + cartObj.total
+				 	+ '</div><div><button type="button" class="update-button">UPDATE</button><button type="button" class="remove-button">REMOVE</button></div></div>');
+
+				$('.modal-body').append('<hr>');
 
 				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
 			}
@@ -111,6 +117,18 @@ export default class App {
 			prod.sku = $(x.target).data('sku');
 			prod.price = $(x.target).data('price');
 			prod.addToCart();
+		});
+	}
+
+	updateButtonEventListen () {
+		$(".modal").on("click", ".update-button", (x) => {
+			console.log("update button click");
+		});
+	}
+
+	removeButtonEventListen () {
+		$(".modal").on("click", ".remove-button", (x) => {
+			console.log("remove button click");
 		});
 	}
 
