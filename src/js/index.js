@@ -15,13 +15,32 @@ export default class App {
 		//this.initBBCall();
 		//let x = this.initBBCall();
 		//this.initBBCall();
-		this.cartEventListen();
-		this.categoryEventListen();
-		this.buttonEventListen();
-		this.updateButtonEventListen();
-		this.removeButtonEventListen();
 
-		this.updateItemCount();
+		this.categoryEventListen();
+		this.productUtilListen();
+	}
+
+	productUtilListen () {
+		let listen = [
+			{className: ".header-desktop", subClass: ".cart-desktop", functionName: "showCart"},
+			{className: ".carousel", subClass: ".cart-button", functionName: "addCartItem"},
+			{className: ".modal", subClass: ".update-button", functionName: "updateCartItem"},
+			{className: ".modal", subClass: ".remove-button", functionName: "removeCartItem"}
+		];
+
+		let productUtil = new ProdUtil;
+		//productUtil.quantity = 5;
+
+		for (let i = 0; i < listen.length; i++)
+		{
+			//console.log(listen[i] == "")
+			$(listen[i].className).on("click", listen[i].subClass, (x) => {
+				//let newQnt = $(x.target).parent().parent().find("input").val();
+				productUtil.target = x.target;
+				productUtil[listen[i].functionName]();
+				console.log($(x.target).parent().parent().find("input").val());
+			});
+		}
 	}
 
 	getUrl () {
@@ -47,116 +66,13 @@ export default class App {
 		return url;
 	}
 
-	cartEventListen () {
-		$(".cart-desktop").on("click", (x) => {
-			console.log("cart click");
-
-			let skuKey = "";
-			let item = null;
-			let cartObj = null;
-			let lineNo = "";
-
-			$('.modal-item').remove();
-
-			for (let i = 0; i < sessionStorage.length; i++)
-			{
-				skuKey = sessionStorage.key(i);
-
-				item = sessionStorage.getItem(skuKey);
-				cartObj = JSON.parse(item);
-
-		  		lineNo = 'line' + (i+1).toString();
-
-				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex"><div>' + 'SKU : ' + skuKey
-				 	+ '</div><div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.qty + '"></div><div>TOTAL : $' + cartObj.total
-				 	+ '</div><div><button type="button" class="update-button">UPDATE</button><button type="button" class="remove-button">REMOVE</button></div></div>');
-
-				$('.modal-body').append('<hr>');
-
-				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
-			}
-
-			// Get the modal
-			let modal = document.getElementById('myModal');
-
-			// Get the <span> element that closes the modal
-			let span = document.getElementsByClassName("close")[0];
-
-			modal.style.display = "block";
-
-			// When the user clicks on <span> (x), close the modal
-			span.onclick = function() {
-			    modal.style.display = "none";
-			}
-
-			// When the user clicks anywhere outside of the modal, close it
-			window.onclick = function(event) {
-			    if (event.target == modal) {
-			        modal.style.display = "none";
-			    }
-			}
-		});
-	}
-
 	categoryEventListen () {
-		$(".nav-item").on("click", (x) => {
+		$(".nav-menu").on("click", ".nav-item", (x) => {
 			console.log($(x.target).text());
 			console.log("category click");
 			this.category = $(x.target).text();
 			this.initBBCall();
 		});
-	}
-
-	buttonEventListen () {
-		$(".carousel").on("click", ".cart-button", (x) => {
-			//console.log($(x.target).data('sku'));
-			//console.log($(x.target).data('price'));
-			console.log("button click");
-
-			let prod = new ProdUtil
-			prod.sku = $(x.target).data('sku');
-			prod.price = $(x.target).data('price');
-			prod.addToCart();
-		});
-	}
-
-	updateButtonEventListen () {
-		$(".modal").on("click", ".update-button", (x) => {
-			console.log("update button click");
-		});
-	}
-
-	removeButtonEventListen () {
-		$(".modal").on("click", ".remove-button", (x) => {
-			console.log("remove button click");
-		});
-	}
-
-	updateItemCount () {
-		let skuKey = "";
-		let item = null;
-		let cartObj = null;
-		let itemCount = 0;
-
-		for (let i = 0; i < sessionStorage.length; i++)
-		{
-			skuKey = sessionStorage.key(i);
-
-			item = sessionStorage.getItem(skuKey);
-			cartObj = JSON.parse(item);
-
-			itemCount += cartObj.qty;
-		}
-
-		if (itemCount > 0) {
-			let x = document.getElementById("itemCount");
-
-			if (x.style.display != "block") {
-				x.style.display = "block";
-			}
-
-			x.textContent = itemCount.toString();
-		}
 	}
 
 	initBBCall () {

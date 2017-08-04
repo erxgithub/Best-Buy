@@ -14317,16 +14317,34 @@ var App = function () {
 		//this.initBBCall();
 		//let x = this.initBBCall();
 		//this.initBBCall();
-		this.cartEventListen();
-		this.categoryEventListen();
-		this.buttonEventListen();
-		this.updateButtonEventListen();
-		this.removeButtonEventListen();
 
-		this.updateItemCount();
+		this.categoryEventListen();
+		this.productUtilListen();
 	}
 
 	_createClass(App, [{
+		key: "productUtilListen",
+		value: function productUtilListen() {
+			var listen = [{ className: ".header-desktop", subClass: ".cart-desktop", functionName: "showCart" }, { className: ".carousel", subClass: ".cart-button", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", functionName: "removeCartItem" }];
+
+			var productUtil = new _produtil.ProdUtil();
+			//productUtil.quantity = 5;
+
+			var _loop = function _loop(i) {
+				//console.log(listen[i] == "")
+				(0, _jquery2.default)(listen[i].className).on("click", listen[i].subClass, function (x) {
+					//let newQnt = $(x.target).parent().parent().find("input").val();
+					productUtil.target = x.target;
+					productUtil[listen[i].functionName]();
+					console.log((0, _jquery2.default)(x.target).parent().parent().find("input").val());
+				});
+			};
+
+			for (var i = 0; i < listen.length; i++) {
+				_loop(i);
+			}
+		}
+	}, {
 		key: "getUrl",
 		value: function getUrl() {
 			switch (this.category) {
@@ -14351,120 +14369,16 @@ var App = function () {
 			return url;
 		}
 	}, {
-		key: "cartEventListen",
-		value: function cartEventListen() {
-			(0, _jquery2.default)(".cart-desktop").on("click", function (x) {
-				console.log("cart click");
-
-				var skuKey = "";
-				var item = null;
-				var cartObj = null;
-				var lineNo = "";
-
-				(0, _jquery2.default)('.modal-item').remove();
-
-				for (var i = 0; i < sessionStorage.length; i++) {
-					skuKey = sessionStorage.key(i);
-
-					item = sessionStorage.getItem(skuKey);
-					cartObj = JSON.parse(item);
-
-					lineNo = 'line' + (i + 1).toString();
-
-					(0, _jquery2.default)('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex"><div>' + 'SKU : ' + skuKey + '</div><div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.qty + '"></div><div>TOTAL : $' + cartObj.total + '</div><div><button type="button" class="update-button">UPDATE</button><button type="button" class="remove-button">REMOVE</button></div></div>');
-
-					(0, _jquery2.default)('.modal-body').append('<hr>');
-
-					console.log("sku: " + skuKey + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
-				}
-
-				// Get the modal
-				var modal = document.getElementById('myModal');
-
-				// Get the <span> element that closes the modal
-				var span = document.getElementsByClassName("close")[0];
-
-				modal.style.display = "block";
-
-				// When the user clicks on <span> (x), close the modal
-				span.onclick = function () {
-					modal.style.display = "none";
-				};
-
-				// When the user clicks anywhere outside of the modal, close it
-				window.onclick = function (event) {
-					if (event.target == modal) {
-						modal.style.display = "none";
-					}
-				};
-			});
-		}
-	}, {
 		key: "categoryEventListen",
 		value: function categoryEventListen() {
 			var _this = this;
 
-			(0, _jquery2.default)(".nav-item").on("click", function (x) {
+			(0, _jquery2.default)(".nav-menu").on("click", ".nav-item", function (x) {
 				console.log((0, _jquery2.default)(x.target).text());
 				console.log("category click");
 				_this.category = (0, _jquery2.default)(x.target).text();
 				_this.initBBCall();
 			});
-		}
-	}, {
-		key: "buttonEventListen",
-		value: function buttonEventListen() {
-			(0, _jquery2.default)(".carousel").on("click", ".cart-button", function (x) {
-				//console.log($(x.target).data('sku'));
-				//console.log($(x.target).data('price'));
-				console.log("button click");
-
-				var prod = new _produtil.ProdUtil();
-				prod.sku = (0, _jquery2.default)(x.target).data('sku');
-				prod.price = (0, _jquery2.default)(x.target).data('price');
-				prod.addToCart();
-			});
-		}
-	}, {
-		key: "updateButtonEventListen",
-		value: function updateButtonEventListen() {
-			(0, _jquery2.default)(".modal").on("click", ".update-button", function (x) {
-				console.log("update button click");
-			});
-		}
-	}, {
-		key: "removeButtonEventListen",
-		value: function removeButtonEventListen() {
-			(0, _jquery2.default)(".modal").on("click", ".remove-button", function (x) {
-				console.log("remove button click");
-			});
-		}
-	}, {
-		key: "updateItemCount",
-		value: function updateItemCount() {
-			var skuKey = "";
-			var item = null;
-			var cartObj = null;
-			var itemCount = 0;
-
-			for (var i = 0; i < sessionStorage.length; i++) {
-				skuKey = sessionStorage.key(i);
-
-				item = sessionStorage.getItem(skuKey);
-				cartObj = JSON.parse(item);
-
-				itemCount += cartObj.qty;
-			}
-
-			if (itemCount > 0) {
-				var _x = document.getElementById("itemCount");
-
-				if (_x.style.display != "block") {
-					_x.style.display = "block";
-				}
-
-				_x.textContent = itemCount.toString();
-			}
 		}
 	}, {
 		key: "initBBCall",
@@ -14496,27 +14410,93 @@ var x = new App();
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.ProdUtil = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _jquery = require("jquery");
 
-//import $ from "jquery";
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ProdUtil = exports.ProdUtil = function () {
 	function ProdUtil() {
 		_classCallCheck(this, ProdUtil);
 
+		this.target = "";
 		this.sku = "";
 		this.price = "";
+		this.quantity = 1;
+		this.setItemCount();
 	}
 
 	_createClass(ProdUtil, [{
-		key: "addToCart",
-		value: function addToCart() {
+		key: "showCart",
+		value: function showCart() {
+			console.log("cart click");
+
+			var skuKey = "";
+			var item = null;
+			var cartObj = null;
+			var lineNo = "";
+			var totalItems = 0;
+			var totalAmount = 0;
+
+			(0, _jquery2.default)('.modal-item').remove();
+
+			totalItems = sessionStorage.length;
+
+			for (var i = 0; i < totalItems; i++) {
+				skuKey = sessionStorage.key(i);
+
+				item = sessionStorage.getItem(skuKey);
+				cartObj = JSON.parse(item);
+
+				lineNo = 'line' + (i + 1).toString();
+
+				(0, _jquery2.default)('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">' + '<div>SKU : ' + skuKey + '</div>' + '<div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.quantity + '"></div>' + '<div>TOTAL : $' + cartObj.total + '</div>' + '<div><button type="button" class="update-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">UPDATE</button>' + '<button type="button" class="remove-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">REMOVE</button></div>' + '</div>');
+
+				(0, _jquery2.default)('.modal-body').append('<hr class="modal-item">');
+
+				totalAmount += cartObj.total;
+
+				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+			}
+
+			(0, _jquery2.default)('.modal-header').append('<div id="cart-total" class="modal-item">' + '<p>YOUR ITEMS : ' + totalItems + ' | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>' + '</div>');
+
+			// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			modal.style.display = "block";
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function () {
+				modal.style.display = "none";
+			};
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function (event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+				}
+			};
+		}
+	}, {
+		key: "addCartItem",
+		value: function addCartItem() {
+			this.sku = (0, _jquery2.default)(this.target).data('sku');
+			this.price = (0, _jquery2.default)(this.target).data('price');
+
 			var cart = {
 				price: 0,
-				qty: 0,
+				quantity: 0,
 				total: 0
 			};
 
@@ -14525,14 +14505,14 @@ var ProdUtil = exports.ProdUtil = function () {
 
 			if (item == null) {
 				cart.price = this.price;
-				cart.qty = 1;
-				cart.total = cart.price * cart.qty;
+				cart.quantity = 1;
+				cart.total = cart.price * cart.quantity;
 			} else {
 				cartObj = JSON.parse(item);
 
 				cart.price = cartObj.price;
-				cart.qty = cartObj.qty + 1;
-				cart.total = cart.price * cart.qty;
+				cart.quantity = cartObj.quantity + this.quantity;
+				cart.total = cart.price * cart.quantity;
 			}
 
 			item = JSON.stringify(cart);
@@ -14541,18 +14521,53 @@ var ProdUtil = exports.ProdUtil = function () {
 			item = sessionStorage.getItem(this.sku);
 			cartObj = JSON.parse(item);
 
-			var x = document.getElementById("itemCount");
+			console.log("sku: " + this.sku + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 
-			if (x.style.display != "block") {
-				x.style.display = "block";
+			this.setItemCount();
+		}
+	}, {
+		key: "updateCartItem",
+		value: function updateCartItem() {
+			var skuKey = (0, _jquery2.default)(this.target).data('sku');
+			var quantity = (0, _jquery2.default)(this.target).data('quantity');
+
+			var item = sessionStorage.getItem(skuKey);
+
+			if (item != null) {
+				var cartObj = JSON.parse(item);
+
+				cartObj.quantity = quantity;
+				cartObj.total = cartObj.price * quantity;
+
+				item = JSON.stringify(cartObj);
+				sessionStorage.setItem(skuKey, item);
+
+				//console.log(this.target);
 			}
 
-			var itemCount = parseInt(x.textContent);
-			itemCount += 1;
+			this.setItemCount();
+		}
+	}, {
+		key: "removeCartItem",
+		value: function removeCartItem() {
+			//console.log($(this.target.prev()));
+		}
+	}, {
+		key: "setItemCount",
+		value: function setItemCount() {
+			var itemCount = sessionStorage.length;
 
-			x.textContent = itemCount.toString();
+			if (itemCount > 0) {
+				var _x = document.getElementById("itemCount");
 
-			console.log("sku: " + this.sku + ", price: " + cartObj.price + ", qty: " + cartObj.qty + ", total: " + cartObj.total);
+				if (_x.style.display != "block") {
+					_x.style.display = "block";
+				}
+
+				_x.textContent = itemCount.toString();
+			} else {
+				x.style.display = "none";
+			}
 		}
 	}]);
 
@@ -14561,4 +14576,4 @@ var ProdUtil = exports.ProdUtil = function () {
 
 ;
 
-},{}]},{},[22]);
+},{"jquery":16}]},{},[22]);

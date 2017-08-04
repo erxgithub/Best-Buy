@@ -46,7 +46,7 @@ gulp.task("watch", function () {
 // sass/scss file conversion
 
 gulp.task('scss', function () {
-    return gulp.src('./src/scss/*.scss')
+    return gulp.src('./src/scss/foundation.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('build.css'))
         .pipe(uglifycss())

@@ -16,11 +16,11 @@
 	border-radius: 50%;
 	font-size: 18px;
 	color: white;
-	line-height: 1.5rem;
+	line-height: 1.75rem;
 	text-align: center;
 	background: red;
-	position: relative;
-	top: -20px;
+	/*position: relative;*/
+	/*top: -20px;*/
 }
 
 .hidden-desktop {
@@ -29,10 +29,13 @@
 
 .nav-menu {
 	width: 100%;
+  	background: #8C8;
+  	color: white;
 }
 
 .nav-menu p:hover {
-	text-decoration: underline;	
+	/*text-decoration: underline;*/
+	color: black;
 }
 
 .nav-item {
@@ -55,7 +58,8 @@ body { font-family: sans-serif; }
   /*height: 200px;*/
   height: 500px;
   margin-right: 10px;
-  background: #8C8;
+  /*background: #8C8;*/
+  background: white;
   border-radius: 5px;
   counter-increment: carousel-cell;
 }
@@ -133,10 +137,13 @@ body { font-family: sans-serif; }
 }
 
 .modal-header {
-	font-size: 2rem;
 	padding: 1rem 2rem 1rem 2rem;
     /*background-color: #5cb85c;*/
     /*color: white;*/
+}
+
+.modal-header h2 {
+	font-size: 2rem;
 }
 
 .modal-body {
@@ -145,10 +152,21 @@ body { font-family: sans-serif; }
 
 .modal-item {
 	width: 100%;
+	word-spacing: 10px;
 }
 
 .modal-item div {
 	width: 25%;
+	line-height: 2rem;
+}
+
+.modal-total {
+	width: 100%;
+}
+
+.modal-total div {
+	width: 25%;
+	line-height: 2rem;
 }
 
 .modal-footer {
@@ -179,4 +197,12 @@ body { font-family: sans-serif; }
 	width: 20%;
 	padding: 0.25rem 0 0.25rem 0;
 	text-align: center;
+}
+
+#cart-total {
+	padding: 1.5rem 0 1rem 0;
+}
+
+#cart-total p span {
+	color: green;
 }
