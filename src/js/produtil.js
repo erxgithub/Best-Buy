@@ -2,54 +2,55 @@ import $ from "jquery";
 
 export class ProdUtil {
 	constructor () {
-		this.target = "";
-		this.sku = "";
-		this.price = "";
-		this.quantity = 1;
+		this.x = "";
+
 		this.setItemCount();
 	}
 	
 	showCart () {
-		console.log("cart click");
-
 		let skuKey = "";
 		let item = null;
 		let cartObj = null;
 		let lineNo = "";
+		let dividerLineNo = "";
 		let totalItems = 0;
-		let totalAmount = 0;
 
 		$('.modal-item').remove();
 
 		totalItems = sessionStorage.length;
 
-		for (let i = 0; i < totalItems; i++)
+		if (totalItems > 0) {
+			for (let i = 0; i < totalItems; i++)
+			{
+				skuKey = sessionStorage.key(i);
+
+				item = sessionStorage.getItem(skuKey);
+				cartObj = JSON.parse(item);
+
+		  		lineNo = 'line' + (i+1).toString();
+		  		dividerLineNo = lineNo + '-hr';
+
+		  		if (i > 0) {
+					$('.modal-body').append('<hr id="' + dividerLineNo + '" class="modal-item">');
+		  		}
+
+				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">'
+					+ '<div>SKU : ' + skuKey + '</div>'
+					+ '<div>QUANTITY : <input type="text" class="cart-quantity" maxlength="2" value="' + cartObj.quantity + '"></div>'
+					+ '<div>TOTAL : $<span>' + cartObj.total + '</span></div>'
+					+ '<div><button type="button" class="update-button" data-sku="' + skuKey + '">UPDATE</button>'
+					+ '<button type="button" class="remove-button" data-sku="' + skuKey + '">REMOVE</button></div>'
+					+ '</div>');
+
+				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+			}			
+		}
+		else
 		{
-			skuKey = sessionStorage.key(i);
-
-			item = sessionStorage.getItem(skuKey);
-			cartObj = JSON.parse(item);
-
-	  		lineNo = 'line' + (i+1).toString();
-
-			$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">'
-				+ '<div>SKU : ' + skuKey + '</div>'
-				+ '<div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.quantity + '"></div>'
-				+ '<div>TOTAL : $' + cartObj.total + '</div>'
-				+ '<div><button type="button" class="update-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">UPDATE</button>'
-				+ '<button type="button" class="remove-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">REMOVE</button></div>'
-				+ '</div>');
-
-			$('.modal-body').append('<hr class="modal-item">');
-
-			totalAmount += cartObj.total;
-
-			console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+			this.setEmptyCart();
 		}
 
-		$('.modal-header').append('<div id="cart-total" class="modal-item">'
-			+ '<p>YOUR ITEMS : ' + totalItems + ' | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>'
-			+ '</div>');
+		this.setCartTotal();
 
 		// Get the modal
 		let modal = document.getElementById('myModal');
@@ -73,8 +74,8 @@ export class ProdUtil {
 	}
 
 	addCartItem () {
-		this.sku = $(this.target).data('sku');
-		this.price = $(this.target).data('price');
+		let skuKey = $(this.x.target).data('sku');
+		let price = $(this.x.target).data('price');
 
 		let cart = {
 			price: 0,
@@ -82,11 +83,11 @@ export class ProdUtil {
 			total: 0
 		}
 
-		let item = sessionStorage.getItem(this.sku);
+		let item = sessionStorage.getItem(skuKey);
 		let cartObj = null;
 
 		if (item == null) {
-			cart.price = this.price;
+			cart.price = price;
 			cart.quantity = 1;
 			cart.total = cart.price * cart.quantity;
 		}
@@ -94,24 +95,30 @@ export class ProdUtil {
 			cartObj = JSON.parse(item);
 
 			cart.price = cartObj.price;
-			cart.quantity = cartObj.quantity + this.quantity;
+			cart.quantity = cartObj.quantity + 1;
 			cart.total = cart.price * cart.quantity;
 		}
 
 		item = JSON.stringify(cart);
-		sessionStorage.setItem(this.sku, item);
+		sessionStorage.setItem(skuKey, item);
 
-		item = sessionStorage.getItem(this.sku);
+		item = sessionStorage.getItem(skuKey);
 		cartObj = JSON.parse(item);
 
-		console.log("sku: " + this.sku + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+		console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 
 		this.setItemCount();
 	}
 
 	updateCartItem () {
-		let skuKey = $(this.target).data('sku');
-		let quantity = $(this.target).data('quantity');
+		let lineNo = $(this.x.target).parent().parent().attr("id");
+		let skuKey = $(this.x.target).data('sku');
+		let quantity = $(this.x.target).parent().parent().find("input").val();
+
+		if (quantity == 0) {
+			this.removeCartItem()
+			return;
+		}
 
 		let item = sessionStorage.getItem(skuKey);
 
@@ -121,25 +128,62 @@ export class ProdUtil {
 			cartObj.quantity = quantity;
 			cartObj.total = cartObj.price * quantity;
 
+			$('#' + lineNo).find("span").text(cartObj.total);
+
 			item = JSON.stringify(cartObj);
 			sessionStorage.setItem(skuKey, item);
-
-			//console.log(this.target);
 		}
 
 		this.setItemCount();
+		this.setCartTotal();
+
+		alert("The quantity has been updated.")
 	}
 
 	removeCartItem () {
-		//console.log($(this.target.prev()));
+		let lineNo = $(this.x.target).parent().parent().attr("id");
+		let skuKey = $(this.x.target).data('sku');
+
+		let response = confirm("Please confirm the removal of the following cart item: SKU " + skuKey);
+		
+		if (response != true) {
+			return;
+		}
+
+		// remove cart item from session storage
+
+		sessionStorage.removeItem(skuKey);
+
+		// remove cart item and horizontal divider line (if needed) from model cart window
+
+		let dividerLineNo = null;
+
+		dividerLineNo = $(this.x.target).parent().parent().prev().attr("id");
+		if (!dividerLineNo) {
+			dividerLineNo = $(this.x.target).parent().parent().next().attr("id");
+		}
+
+		$('#' + lineNo).remove();
+
+		if (dividerLineNo) {
+			$('#' + dividerLineNo).remove();
+		}
+
+		if (sessionStorage.length == 0) {
+			this.setEmptyCart();
+		}
+
+		this.setItemCount();
+		this.setCartTotal();
+
+		alert("The item has been removed from the cart.")
 	}
 
 	setItemCount () {
+		let x = document.getElementById("itemCount");
 		let itemCount = sessionStorage.length;
 
 		if (itemCount > 0) {
-			let x = document.getElementById("itemCount");
-
 			if (x.style.display != "block") {
 				x.style.display = "block";
 			}
@@ -150,5 +194,60 @@ export class ProdUtil {
 		{
 			x.style.display = "none";
 		}
+	}
+
+	setCartTotal () {
+		let skuKey = "";
+		let item = null;
+		let cartObj = null;
+		let totalItems = 0;
+		let totalAmount = 0;
+
+		$('#cart-total').remove();
+
+		totalItems = sessionStorage.length;
+
+		for (let i = 0; i < totalItems; i++)
+		{
+			skuKey = sessionStorage.key(i);
+
+			item = sessionStorage.getItem(skuKey);
+			cartObj = JSON.parse(item);
+
+			totalAmount += cartObj.total;
+		}
+
+		$('.modal-header').append('<div id="cart-total" class="modal-item">'
+			+ '<p>YOUR ITEMS : <span>' + totalItems + '</span> | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>'
+			+ '</div>');
+	}
+
+	setEmptyCart () {
+		$('.modal-body').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
+	}
+
+	validateQuantity () {
+		let keyCode = this.x.keyCode;
+		let ctrlCode = this.x.ctrlCode;
+		let metaKey = this.x.metaKey;
+		let shiftKey = this.x.shiftKey;
+
+        // Allow: backspace, delete, tab, escape, ansd enter
+        if ($.inArray(keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+             // Allow: Ctrl/cmd+A
+            (keyCode == 65 && (ctrlKey === true || metaKey === true)) ||
+             // Allow: Ctrl/cmd+C
+            (keyCode == 67 && (ctrlKey === true || metaKey === true)) ||
+             // Allow: Ctrl/cmd+X
+            (keyCode == 88 && (ctrlKey === true || metaKey === true)) ||
+             // Allow: home, end, left, right
+            (keyCode >= 35 && keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((shiftKey || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105)) {
+            this.x.preventDefault();
+        }		
 	}
 };

@@ -54,7 +54,7 @@ export class Carousel {
 		$('#' + this.product["productId"] + ' img').attr("src", this.product["item"].largeImage);
 		$('#' + this.product["productId"]).append('<p></p>');
 		$('#' + this.product["productId"] + ' p:eq(2)').html('$' + this.product["item"].regularPrice);
-		$('#' + this.product["productId"]).append('<button type="button" class="cart-button" data-sku="'
+		$('#' + this.product["productId"]).append('<button type="button" class="add-button" data-sku="'
 			+ this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">Add to Cart</button>');
 	}
 };

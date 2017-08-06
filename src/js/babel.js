@@ -14270,7 +14270,7 @@ var Carousel = exports.Carousel = function () {
 			(0, _jquery2.default)('#' + this.product["productId"] + ' img').attr("src", this.product["item"].largeImage);
 			(0, _jquery2.default)('#' + this.product["productId"]).append('<p></p>');
 			(0, _jquery2.default)('#' + this.product["productId"] + ' p:eq(2)').html('$' + this.product["item"].regularPrice);
-			(0, _jquery2.default)('#' + this.product["productId"]).append('<button type="button" class="cart-button" data-sku="' + this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">Add to Cart</button>');
+			(0, _jquery2.default)('#' + this.product["productId"]).append('<button type="button" class="add-button" data-sku="' + this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">Add to Cart</button>');
 		}
 	}]);
 
@@ -14325,18 +14325,23 @@ var App = function () {
 	_createClass(App, [{
 		key: "productUtilListen",
 		value: function productUtilListen() {
-			var listen = [{ className: ".header-desktop", subClass: ".cart-desktop", functionName: "showCart" }, { className: ".carousel", subClass: ".cart-button", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", functionName: "removeCartItem" }];
+			var listen = [{ className: ".header-desktop", subClass: ".cart-desktop", eventName: "click", functionName: "showCart" }, { className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem" }, { className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity" }];
 
 			var productUtil = new _produtil.ProdUtil();
 			//productUtil.quantity = 5;
 
 			var _loop = function _loop(i) {
 				//console.log(listen[i] == "")
-				(0, _jquery2.default)(listen[i].className).on("click", listen[i].subClass, function (x) {
+				(0, _jquery2.default)(listen[i].className).on(listen[i].eventName, listen[i].subClass, function (x) {
 					//let newQnt = $(x.target).parent().parent().find("input").val();
-					productUtil.target = x.target;
+					productUtil.x = x;
 					productUtil[listen[i].functionName]();
-					console.log((0, _jquery2.default)(x.target).parent().parent().find("input").val());
+					/*console.log(x.target);
+     console.log($(x.target));
+     console.log($(x.target).parent());
+     console.log($(x.target).parent().parent());
+     console.log($(x.target).parent().parent().find("input"));
+     console.log($(x.target).parent().parent().find("input").val());*/
 				});
 			};
 
@@ -14375,7 +14380,6 @@ var App = function () {
 
 			(0, _jquery2.default)(".nav-menu").on("click", ".nav-item", function (x) {
 				console.log((0, _jquery2.default)(x.target).text());
-				console.log("category click");
 				_this.category = (0, _jquery2.default)(x.target).text();
 				_this.initBBCall();
 			});
@@ -14426,47 +14430,48 @@ var ProdUtil = exports.ProdUtil = function () {
 	function ProdUtil() {
 		_classCallCheck(this, ProdUtil);
 
-		this.target = "";
-		this.sku = "";
-		this.price = "";
-		this.quantity = 1;
+		this.x = "";
+
 		this.setItemCount();
 	}
 
 	_createClass(ProdUtil, [{
 		key: "showCart",
 		value: function showCart() {
-			console.log("cart click");
-
 			var skuKey = "";
 			var item = null;
 			var cartObj = null;
 			var lineNo = "";
+			var dividerLineNo = "";
 			var totalItems = 0;
-			var totalAmount = 0;
 
 			(0, _jquery2.default)('.modal-item').remove();
 
 			totalItems = sessionStorage.length;
 
-			for (var i = 0; i < totalItems; i++) {
-				skuKey = sessionStorage.key(i);
+			if (totalItems > 0) {
+				for (var i = 0; i < totalItems; i++) {
+					skuKey = sessionStorage.key(i);
 
-				item = sessionStorage.getItem(skuKey);
-				cartObj = JSON.parse(item);
+					item = sessionStorage.getItem(skuKey);
+					cartObj = JSON.parse(item);
 
-				lineNo = 'line' + (i + 1).toString();
+					lineNo = 'line' + (i + 1).toString();
+					dividerLineNo = lineNo + '-hr';
 
-				(0, _jquery2.default)('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">' + '<div>SKU : ' + skuKey + '</div>' + '<div>QUANTITY : <input type="text" class="cart-quantity" value="' + cartObj.quantity + '"></div>' + '<div>TOTAL : $' + cartObj.total + '</div>' + '<div><button type="button" class="update-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">UPDATE</button>' + '<button type="button" class="remove-button" data-sku="' + skuKey + '" data-quantity="' + cartObj.quantity + '">REMOVE</button></div>' + '</div>');
+					if (i > 0) {
+						(0, _jquery2.default)('.modal-body').append('<hr id="' + dividerLineNo + '" class="modal-item">');
+					}
 
-				(0, _jquery2.default)('.modal-body').append('<hr class="modal-item">');
+					(0, _jquery2.default)('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">' + '<div>SKU : ' + skuKey + '</div>' + '<div>QUANTITY : <input type="text" class="cart-quantity" maxlength="2" value="' + cartObj.quantity + '"></div>' + '<div>TOTAL : $<span>' + cartObj.total + '</span></div>' + '<div><button type="button" class="update-button" data-sku="' + skuKey + '">UPDATE</button>' + '<button type="button" class="remove-button" data-sku="' + skuKey + '">REMOVE</button></div>' + '</div>');
 
-				totalAmount += cartObj.total;
-
-				console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+					console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+				}
+			} else {
+				this.setEmptyCart();
 			}
 
-			(0, _jquery2.default)('.modal-header').append('<div id="cart-total" class="modal-item">' + '<p>YOUR ITEMS : ' + totalItems + ' | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>' + '</div>');
+			this.setCartTotal();
 
 			// Get the modal
 			var modal = document.getElementById('myModal');
@@ -14491,8 +14496,8 @@ var ProdUtil = exports.ProdUtil = function () {
 	}, {
 		key: "addCartItem",
 		value: function addCartItem() {
-			this.sku = (0, _jquery2.default)(this.target).data('sku');
-			this.price = (0, _jquery2.default)(this.target).data('price');
+			var skuKey = (0, _jquery2.default)(this.x.target).data('sku');
+			var price = (0, _jquery2.default)(this.x.target).data('price');
 
 			var cart = {
 				price: 0,
@@ -14500,36 +14505,42 @@ var ProdUtil = exports.ProdUtil = function () {
 				total: 0
 			};
 
-			var item = sessionStorage.getItem(this.sku);
+			var item = sessionStorage.getItem(skuKey);
 			var cartObj = null;
 
 			if (item == null) {
-				cart.price = this.price;
+				cart.price = price;
 				cart.quantity = 1;
 				cart.total = cart.price * cart.quantity;
 			} else {
 				cartObj = JSON.parse(item);
 
 				cart.price = cartObj.price;
-				cart.quantity = cartObj.quantity + this.quantity;
+				cart.quantity = cartObj.quantity + 1;
 				cart.total = cart.price * cart.quantity;
 			}
 
 			item = JSON.stringify(cart);
-			sessionStorage.setItem(this.sku, item);
+			sessionStorage.setItem(skuKey, item);
 
-			item = sessionStorage.getItem(this.sku);
+			item = sessionStorage.getItem(skuKey);
 			cartObj = JSON.parse(item);
 
-			console.log("sku: " + this.sku + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
+			console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 
 			this.setItemCount();
 		}
 	}, {
 		key: "updateCartItem",
 		value: function updateCartItem() {
-			var skuKey = (0, _jquery2.default)(this.target).data('sku');
-			var quantity = (0, _jquery2.default)(this.target).data('quantity');
+			var lineNo = (0, _jquery2.default)(this.x.target).parent().parent().attr("id");
+			var skuKey = (0, _jquery2.default)(this.x.target).data('sku');
+			var quantity = (0, _jquery2.default)(this.x.target).parent().parent().find("input").val();
+
+			if (quantity == 0) {
+				this.removeCartItem();
+				return;
+			}
 
 			var item = sessionStorage.getItem(skuKey);
 
@@ -14539,34 +14550,126 @@ var ProdUtil = exports.ProdUtil = function () {
 				cartObj.quantity = quantity;
 				cartObj.total = cartObj.price * quantity;
 
+				(0, _jquery2.default)('#' + lineNo).find("span").text(cartObj.total);
+
 				item = JSON.stringify(cartObj);
 				sessionStorage.setItem(skuKey, item);
-
-				//console.log(this.target);
 			}
 
 			this.setItemCount();
+			this.setCartTotal();
+
+			alert("The quantity has been updated.");
 		}
 	}, {
 		key: "removeCartItem",
 		value: function removeCartItem() {
-			//console.log($(this.target.prev()));
+			var lineNo = (0, _jquery2.default)(this.x.target).parent().parent().attr("id");
+			var skuKey = (0, _jquery2.default)(this.x.target).data('sku');
+
+			var response = confirm("Please confirm the removal of the following cart item: SKU " + skuKey);
+
+			if (response != true) {
+				return;
+			}
+
+			// remove cart item from session storage
+
+			sessionStorage.removeItem(skuKey);
+
+			// remove cart item and horizontal divider line (if needed) from model cart window
+
+			var dividerLineNo = null;
+
+			dividerLineNo = (0, _jquery2.default)(this.x.target).parent().parent().prev().attr("id");
+			if (!dividerLineNo) {
+				dividerLineNo = (0, _jquery2.default)(this.x.target).parent().parent().next().attr("id");
+			}
+
+			(0, _jquery2.default)('#' + lineNo).remove();
+
+			if (dividerLineNo) {
+				(0, _jquery2.default)('#' + dividerLineNo).remove();
+			}
+
+			if (sessionStorage.length == 0) {
+				this.setEmptyCart();
+			}
+
+			this.setItemCount();
+			this.setCartTotal();
+
+			alert("The item has been removed from the cart.");
 		}
 	}, {
 		key: "setItemCount",
 		value: function setItemCount() {
+			var x = document.getElementById("itemCount");
 			var itemCount = sessionStorage.length;
 
 			if (itemCount > 0) {
-				var _x = document.getElementById("itemCount");
-
-				if (_x.style.display != "block") {
-					_x.style.display = "block";
+				if (x.style.display != "block") {
+					x.style.display = "block";
 				}
 
-				_x.textContent = itemCount.toString();
+				x.textContent = itemCount.toString();
 			} else {
 				x.style.display = "none";
+			}
+		}
+	}, {
+		key: "setCartTotal",
+		value: function setCartTotal() {
+			var skuKey = "";
+			var item = null;
+			var cartObj = null;
+			var totalItems = 0;
+			var totalAmount = 0;
+
+			(0, _jquery2.default)('#cart-total').remove();
+
+			totalItems = sessionStorage.length;
+
+			for (var i = 0; i < totalItems; i++) {
+				skuKey = sessionStorage.key(i);
+
+				item = sessionStorage.getItem(skuKey);
+				cartObj = JSON.parse(item);
+
+				totalAmount += cartObj.total;
+			}
+
+			(0, _jquery2.default)('.modal-header').append('<div id="cart-total" class="modal-item">' + '<p>YOUR ITEMS : <span>' + totalItems + '</span> | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>' + '</div>');
+		}
+	}, {
+		key: "setEmptyCart",
+		value: function setEmptyCart() {
+			(0, _jquery2.default)('.modal-body').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
+		}
+	}, {
+		key: "validateQuantity",
+		value: function validateQuantity() {
+			var keyCode = this.x.keyCode;
+			var ctrlCode = this.x.ctrlCode;
+			var metaKey = this.x.metaKey;
+			var shiftKey = this.x.shiftKey;
+
+			// Allow: backspace, delete, tab, escape, ansd enter
+			if (_jquery2.default.inArray(keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+			// Allow: Ctrl/cmd+A
+			keyCode == 65 && (ctrlKey === true || metaKey === true) ||
+			// Allow: Ctrl/cmd+C
+			keyCode == 67 && (ctrlKey === true || metaKey === true) ||
+			// Allow: Ctrl/cmd+X
+			keyCode == 88 && (ctrlKey === true || metaKey === true) ||
+			// Allow: home, end, left, right
+			keyCode >= 35 && keyCode <= 39) {
+				// let it happen, don't do anything
+				return;
+			}
+			// Ensure that it is a number and stop the keypress
+			if ((shiftKey || keyCode < 48 || keyCode > 57) && (keyCode < 96 || keyCode > 105)) {
+				this.x.preventDefault();
 			}
 		}
 	}]);

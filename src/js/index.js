@@ -22,10 +22,11 @@ export default class App {
 
 	productUtilListen () {
 		let listen = [
-			{className: ".header-desktop", subClass: ".cart-desktop", functionName: "showCart"},
-			{className: ".carousel", subClass: ".cart-button", functionName: "addCartItem"},
-			{className: ".modal", subClass: ".update-button", functionName: "updateCartItem"},
-			{className: ".modal", subClass: ".remove-button", functionName: "removeCartItem"}
+			{className: ".header-desktop", subClass: ".cart-desktop", eventName: "click", functionName: "showCart"},
+			{className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem"},
+			{className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem"},
+			{className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem"},
+			{className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity"}
 		];
 
 		let productUtil = new ProdUtil;
@@ -34,11 +35,16 @@ export default class App {
 		for (let i = 0; i < listen.length; i++)
 		{
 			//console.log(listen[i] == "")
-			$(listen[i].className).on("click", listen[i].subClass, (x) => {
+			$(listen[i].className).on(listen[i].eventName, listen[i].subClass, (x) => {
 				//let newQnt = $(x.target).parent().parent().find("input").val();
-				productUtil.target = x.target;
+				productUtil.x = x;
 				productUtil[listen[i].functionName]();
-				console.log($(x.target).parent().parent().find("input").val());
+				/*console.log(x.target);
+				console.log($(x.target));
+				console.log($(x.target).parent());
+				console.log($(x.target).parent().parent());
+				console.log($(x.target).parent().parent().find("input"));
+				console.log($(x.target).parent().parent().find("input").val());*/
 			});
 		}
 	}
@@ -69,7 +75,6 @@ export default class App {
 	categoryEventListen () {
 		$(".nav-menu").on("click", ".nav-item", (x) => {
 			console.log($(x.target).text());
-			console.log("category click");
 			this.category = $(x.target).text();
 			this.initBBCall();
 		});
