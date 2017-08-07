@@ -14270,7 +14270,7 @@ var Carousel = exports.Carousel = function () {
 			(0, _jquery2.default)('#' + this.product["productId"] + ' img').attr("src", this.product["item"].largeImage);
 			(0, _jquery2.default)('#' + this.product["productId"]).append('<p></p>');
 			(0, _jquery2.default)('#' + this.product["productId"] + ' p:eq(2)').html('$' + this.product["item"].regularPrice);
-			(0, _jquery2.default)('#' + this.product["productId"]).append('<button type="button" class="add-button" data-sku="' + this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">Add to Cart</button>');
+			(0, _jquery2.default)('#' + this.product["productId"]).append('<button type="button" class="add-button" data-sku="' + this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">ADD TO CART</button>');
 		}
 	}]);
 
@@ -14325,7 +14325,7 @@ var App = function () {
 	_createClass(App, [{
 		key: "productUtilListen",
 		value: function productUtilListen() {
-			var listen = [{ className: ".header-desktop", subClass: ".cart-desktop", eventName: "click", functionName: "showCart" }, { className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem" }, { className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity" }];
+			var listen = [{ className: "header", subClass: ".shopping-cart", eventName: "click", functionName: "showCart" }, { className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem" }, { className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity" }];
 
 			var productUtil = new _produtil.ProdUtil();
 			//productUtil.quantity = 5;

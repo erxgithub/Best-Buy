@@ -22,7 +22,7 @@ export default class App {
 
 	productUtilListen () {
 		let listen = [
-			{className: ".header-desktop", subClass: ".cart-desktop", eventName: "click", functionName: "showCart"},
+			{className: "header", subClass: ".shopping-cart", eventName: "click", functionName: "showCart"},
 			{className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem"},
 			{className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem"},
 			{className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem"},

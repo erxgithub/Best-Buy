@@ -5,13 +5,31 @@
     </head>
     <body>
 		<!-- logo, shopping cart, and top navigation menu -->
-		<header class="flex flex-justify-end header-desktop">
+		<header class="flex flex-column">
 		<!-- <div class="flex flex-justify-center" style="background: green; border-radius: 50%; height: 5rem; width: 5rem;"> -->
-			<div class="flex flex-justify-end cart-desktop">
-				<h4 id="itemCount" class="circle-desktop hidden-desktop">0</h4>
+			<div class="flex flex-justify-end">
+				<div class="flex flex-justify-end shopping-cart">
+					<h4 id="itemCount" class="item-count-circle">0</h4>
+				</div>
 			</div>
-		<!-- </div> -->
 		</header>
+		<banner class="flex flex-column">
+			<div class="flex flex-column">
+				<h1>WELCOME TO BESTBUY STORE</h1>
+				<p>SHOP HERE, FOR SOME REASON</p>
+				<div>
+					<button type="button" class="shop-button">SHOP NOW</button>
+				</div>
+			</div>
+		</banner>
+		<section class="flex flex-column flex-justify-center about-company">
+			<div class="flex flex-justify-center">
+				<h1>WE SELL THE SAME STUFF AS BESTBUY, BUT WE'RE <span>BETTER</span></h1>
+			</div>
+				<div class="flex flex-justify-center">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
+		</section>
 		<section>
 			<!-- The Modal -->
 			<div id="myModal" class="modal">
@@ -20,7 +38,7 @@
 			  <div class="modal-content">
 			    <div class="modal-header">
 			      <span class="close">&times;</span>
-			      <h2>YOUR CART</h2>
+			      <h1>YOUR CART</h1>
 			    </div>
 			    <div class="modal-body">
 			    </div>
@@ -50,6 +68,25 @@
 	        <div class="carousel">
 	        </div>
         </section>
+			<!-- email -->
+			<!-- <main>
+			<section class="flex flex-justify-around flex-items-center flex-column color-white email-mobile email-tablet email-desktop">
+				<h2>Sign-up for <span class="playfair-bold">Updates</span></h2>
+				<h5>Stay updated on our latest product releases, be first to find out about upcoming sales, and get free style tips from our blog. Unsubscribe at any time.</h5>
+				<div class ="flex round-corner-mobile round-corner-tablet round-corner-desktop bg-color-white">
+					<input type="text" name="email-address" value="   Your Email" class="round-corner-mobile round-corner-tablet round-corner-desktop color-grey">
+					<button type="button" class="round-corner-mobile round-corner-tablet round-corner-desktop color-white bg-color-orange">Subscribe</button>
+				</div>
+			</section>
+			</main> -->
+		<footer class="flex flex-justify-around flex-items-center flex-column">
+			<h1>SIGN UP FOR UPDATES</h1>
+			<p>WE WILL NOT STOP EMAILING YOU</p>
+			<div class ="flex flex-justify-end email-signup">
+				<input type="text" name="email-address" value="   Enter your email">
+				<button type="button">SIGN UP</button>
+			</div>
+		</footer>
 		<!-- Google CDN for jQuery -->
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 		<!-- bxSlider Javascript file -->

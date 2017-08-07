@@ -1,0 +1,133 @@
+/* fonts.css (Eric Gregor) */
+
+/* PlayfairDisplay fonts */
+
+@font-face {
+	font-family: PlayfairDisplay-Regular;
+	src: url("../assets/fonts/playfairdisplay-regular.otf");
+}
+
+@font-face {
+	font-family: PlayfairDisplay-Bold;
+	src: url("../assets/fonts/playfairdisplay-bold.otf");
+}
+
+@font-face {
+	font-family: PlayfairDisplay-Italic;
+	src: url("../assets/fonts/playfairdisplay-italic.otf");
+}
+
+@font-face {
+	font-family: PlayfairDisplay-BoldItalic;
+	src: url("../assets/fonts/playfairdisplay-bolditalic.otf");
+}
+
+.playfair-regular {
+	font-family: PlayfairDisplay-Regular, Serif;	
+}
+
+.playfair-bold {
+	font-family: PlayfairDisplay-Bold, Serif;	
+}
+
+.playfair-italic {
+	font-family: PlayfairDisplay-Italic, Serif;	
+}
+
+.playfair-italicbold {
+	font-family: PlayfairDisplay-ItalicBold, Serif;	
+}
+
+/* Raleway fonts */
+
+@font-face {
+	font-family: Raleway-Light;
+	src: url("../assets/fonts/raleway-light.ttf");
+}
+
+@font-face {
+	font-family: Raleway-LightItalic;
+	src: url("../assets/fonts/raleway-lightitalic.ttf");
+}
+
+@font-face {
+	font-family: Raleway-Medium;
+	src: url("../assets/fonts/raleway-medium.ttf");
+}
+
+@font-face {
+	font-family: Raleway-MediumItalic;
+	src: url("../assets/fonts/raleway-mediumitalic.ttf");
+}
+
+.raleway-light {
+	font-family: Raleway-Light, Serif;	
+}
+
+.raleway-lightitalic {
+	font-family: Raleway-LightItalic, Serif;	
+}
+
+.raleway-medium {
+	font-family: Raleway-Medium, Serif;	
+}
+
+.raleway-mediumitalic {
+	font-family: Raleway-MediumItalic, Serif;	
+}
+
+/* font colours */
+
+.color-white {
+	color: white;
+}
+
+.color-grey {
+	color: grey;
+}
+
+.color-red {
+	color: red;
+}
+
+/* default font family and size */
+
+/*h1 {
+	font-family: Raleway-Light;
+	font-size: 3.5rem;
+}
+
+h2 {
+	font-family: PlayfairDisplay-Italic;
+	font-size: 3rem;
+}
+
+h3 {
+	font-family: Raleway-Light;
+	font-size: 2rem;
+}
+
+h4 {
+	font-family: Raleway-Light;
+	font-size: 1.25rem;
+}
+
+h5 {
+	font-family: Raleway-Light;
+	font-size: 1.5rem;
+}
+
+h6, body, input, button {
+	font-family: Raleway-Light;
+	font-size: 1rem;
+}
+
+p {
+	font-family: PlayfairDisplay-Regular;
+	font-size: 6rem;
+}
+
+footer {
+	font-family: PlayfairDisplay-Regular;
+	font-size: 1.5rem;
+}*/

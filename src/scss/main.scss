@@ -1,16 +1,29 @@
-/* shopping cart */
-
-.cart-desktop {
-	height: 5rem;
-	width: 5rem;
-	/*border-radius: 50%;*/
-	background: url("../assets/images/cart-icon.svg") no-repeat center bottom;
-	background-size: cover;
-	/*background: green;*/
-	/*padding: 2rem;*/
+* {
+	font-family: Sans-serif;
 }
 
-.circle-desktop {
+header {
+	background-color: rgba(157, 191,180, 1);
+	/*width: 100%;*/
+	padding: 1rem 4rem 1rem 4rem;
+}
+
+/* shopping cart */
+
+.shopping-cart {
+	height: 5.25rem;
+	width: 5.25rem;
+	/*border-radius: 50%;*/
+	/*background: url("../assets/images/cart-icon.svg") no-repeat center bottom;*/
+	background: url("../assets/images/shopping-cart.png") no-repeat center bottom;
+	background-size: cover;
+	/*background: green;*/
+	/*padding: 0 2rem 0 0;*/
+  	/*background-color: #2d8655;*/
+	/*opacity: 0.7;*/
+}
+
+.item-count-circle {
 	height: 1.75rem;
 	width: 1.75rem;
 	border-radius: 50%;
@@ -18,25 +31,85 @@
 	color: white;
 	line-height: 1.75rem;
 	text-align: center;
-	background: red;
+	/*background: red;*/
+	background-color: rgba(47, 72, 64, 1);
 	/*position: relative;*/
 	/*top: -20px;*/
+	display: none;
 }
 
-.hidden-desktop {
+/*.hidden-desktop {
 	display: none;
-}	
+}*/
+
+banner {
+	background: linear-gradient(rgba(157, 191,180, 1), rgba(204, 221, 215, 1));
+	/*width: 100%;*/
+	padding: 4rem 0 7rem 0;
+ 	text-align: center;
+ }
+
+banner h1 {
+	/*font-family: Sans-serif;*/
+	font-size: 4.5rem;
+	/*font-weight: bolder;*/
+	opacity: 0.7;
+	padding: 0 0 1.25rem 0;
+}
+
+banner p {
+	font-family: Raleway-Light;
+	font-size: 2.5rem;
+	/*font-weight: lighter;*/
+	opacity: 0.7;
+	padding: 0 0 2.5rem 0;
+}
+
+.shop-button {
+	background-color: rgba(87, 130, 108, 1);
+	color: white;
+	font-size: 1.5rem;
+	padding: 1rem 5rem 1rem 5rem;
+	word-spacing: 10px;
+}
+
+.about-company {
+	padding: 4rem 0 5rem 0;
+ 	text-align: center;
+ }
+
+.about-company h1 {
+	/*font-family: Sans-serif;*/
+	width: 80%;
+	font-size: 2rem;
+	/*opacity: 0.7;*/
+	padding: 0 0 1.5rem 0;
+}
+
+.about-company h1 span {
+	color: rgba(87, 130, 108, 1);
+}
+
+.about-company p {
+	/*font-family: Raleway-Light;*/
+	width: 70%;
+	font-size: 1.25rem;
+	line-height: 1.5rem;
+	opacity: 0.5;
+	/*padding: 0 0 2.5rem 0;*/
+}
 
 .nav-menu {
-	width: 100%;
-  	background-color: #2d8655;
+	/*width: 100%;*/
+  	background-color: rgba(116, 163, 139, 1);
+  	font-size: 1.25rem;
   	color: white;
-  	opacity: 0.7;
+  	/*opacity: 0.7;*/
 }
 
 .nav-menu p:hover {
 	/*text-decoration: underline;*/
-	color: black;
+	color: rgba(67, 101, 84, 1);
 }
 
 .nav-item {
@@ -48,7 +121,7 @@
 
 /** { box-sizing: border-box; }*/
 
-body { font-family: sans-serif; }
+/*body { font-family: sans-serif; }*/
 
 .carousel {
   background: #EEE;
@@ -57,12 +130,49 @@ body { font-family: sans-serif; }
 .carousel-cell {
   width: 28%;
   /*height: 200px;*/
-  height: 500px;
-  margin-right: 10px;
+  /*height: 500px;*/
+  /*margin-right: 10px;*/
   /*background: #8C8;*/
   background: white;
   border-radius: 5px;
   counter-increment: carousel-cell;
+	text-align: center;
+	padding: 2rem 0 2rem 0;
+}
+
+.carousel-cell p:nth-child(1) {
+	font-size: 2rem;
+	font-weight: bold;
+	padding: 1rem 0 1rem 0;
+}
+
+.carousel-cell p:nth-child(2) {
+	height: 10vh;
+	font-size: 1.25rem;
+	opacity: 0.5;
+	padding: 1rem 0 1rem 0;
+}
+
+.carousel-cell img:nth-child(3) {
+	height: 30vh;
+	padding: 1rem 0 1rem 0;
+}
+
+.carousel-cell p:nth-child(4) {
+	font-size: 1.5rem;
+	font-weight: bold;
+  	color: rgba(116, 163, 139, 1);
+	padding: 1rem 0 1rem 0;
+}
+
+.carousel-cell button:nth-child(5) {
+  	background-color: rgba(116, 163, 139, 1);
+  	border: none;
+	font-size: 1rem;
+	color: white;
+	padding: 1rem 5rem 1rem 5rem;
+	word-spacing: 10px;
+	width: 100%
 }
 
 .carousel-cell.is-selected {
@@ -88,7 +198,7 @@ body { font-family: sans-serif; }
     left: 0;
     top: 0;
     width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    /*height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -143,16 +253,16 @@ body { font-family: sans-serif; }
     /*color: white;*/
 }
 
-.modal-header h2 {
+.modal-header h1 {
 	font-size: 2rem;
 }
 
 .modal-body {
-	padding: 1rem 2rem 3rem 2rem;
+	padding: 1rem 1rem 3rem 2rem;
 }
 
 .modal-item {
-	width: 100%;
+	/*width: 100%;*/
 	word-spacing: 10px;
 }
 
@@ -161,17 +271,17 @@ body { font-family: sans-serif; }
 	line-height: 2rem;
 }
 
-.modal-total {
+/*.modal-total {
 	width: 100%;
-}
+}*/
 
 .modal-total div {
-	width: 25%;
+	/*width: 25%;*/
 	line-height: 2rem;
 }
 
 .modal-footer {
-    padding: 2px 16px;
+    /*padding: 2px 16px;*/
     /*background-color: #5cb85c;*/
     /*color: white;*/
 }
@@ -206,4 +316,114 @@ body { font-family: sans-serif; }
 
 #cart-total p span {
 	color: green;
+}
+
+footer {
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	/*position: absolute;*/
+	width: 100%;
+	padding: 3.5rem 0 3.5rem 0;
+}
+
+footer h1 {
+	font-size: 2.5rem;
+}
+
+footer p {
+	font-size: 1.5rem;
+	padding: 1rem 0 1.75rem 0;
+	opacity: 0.8;
+}
+
+.email-signup {
+	border-radius: 100px;
+	background-color: white;
+	width: 70%;
+}
+
+.email-signup input {
+	border-style: none;
+	/*height: 3rem;*/
+	/*width: 14rem;*/
+	width: 100%;
+	font-size: 1rem;
+	border-radius: 100px;
+	/*position: absolute;*/
+	color: grey;
+	padding: 1.5rem 0 1.5rem 0;
+}
+
+.email-signup button {
+	border-style: none;
+	border-radius: 0 100px 100px 0;
+	background-color: rgba(116, 163, 139, 1);
+	color: white;
+	font-size: 1.25rem;
+	/*padding: 0.25rem 2rem 0.25rem 1rem;*/
+	position: relative;
+	top: 0.3rem;
+	right: 0.3rem;
+	/*background-color:transparent;*/
+	height: 7vh;
+	width: 15rem;
+}
+
+/***/
+
+
+/* email */
+
+.email-mobile {
+	background: url("../assets/images/wave-bkgd.jpg") no-repeat center bottom;
+	background-size: cover;
+	line-height: 1.5rem;
+	padding: 3rem 0 3rem 0;
+	opacity: 0.8;
+	text-align: center;
+}
+
+.email-mobile h2 {
+	font-size: 2rem;
+	text-shadow: 2px 2px 8px grey;
+}
+
+.email-mobile h5 {
+	width: 95%;
+	line-height: 2rem;
+	font-size: 1rem;
+	padding: 2rem 2rem 3rem 2rem;
+}
+
+.email-mobile div input {
+	border-style: none;
+	height: 2.25rem;
+	width: 14rem;
+	font-size: 1rem;
+}
+
+.email-mobile div button {
+	border-style: none;
+	height: 2rem;
+	width: 6.5rem;
+	font-size: 0.9rem;
+	position: relative;
+	top: 0.2rem;
+	right: 0.2rem;
+}
+
+button {
+	transition: background-color 1s ease;
+}
+
+button:hover {
+	background-color: green;
+}
+
+.round-corner-mobile {
+	border-radius: 20px;
+}
+
+.bg-color-white {
+	background-color: white;
 }
