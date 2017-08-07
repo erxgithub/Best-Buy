@@ -1,3 +1,5 @@
+// carousel.js (Eric Gregor)
+
 import $ from "jquery";
 import Flickity from 'flickity';
 
@@ -10,14 +12,7 @@ export class Carousel {
 	}
 
 	getProducts () {
-
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
-
-		//if ($('.carousel-cell').length > 0) {
-		//	let elem = document.querySelector('.carousel');
-		//	let y = new Flickity(elem);
-		//	y.flickity('destroy');
-		//}
 
 		//$('.carousel-cell').remove();
 
@@ -30,22 +25,20 @@ export class Carousel {
 
 				$('.carousel').append('<div id="' + this.product["productId"] + '" class="carousel-cell"></div>');
 
-				this.updateProduct();
+				this.addProduct();
 		}
 
 		let elem = document.querySelector('.carousel');
-		//let flkty = new Flickity(elem);
 		let flkty = new Flickity( elem, {
 		  // options
 		  cellAlign: 'left',
 		  contain: true
 		});
-
-		//console.log(result);
 	}
 
-	updateProduct () {
-		//$('#' + productId).addClass('product-box'); // add class to help identify inserted content
+	addProduct () {
+		// add product to carousel
+
 		$('#' + this.product["productId"]).append('<p></p>');
 		$('#' + this.product["productId"] + ' p:eq(0)').html(this.product["item"].manufacturer);
 		$('#' + this.product["productId"]).append('<p></p>');

@@ -1,13 +1,19 @@
+// produtil.js (Eric Gregor)
+
 import $ from "jquery";
 
 export class ProdUtil {
 	constructor () {
 		this.x = "";
 
+		// initialize cart item count, based on session storage
+
 		this.setItemCount();
 	}
 	
 	showCart () {
+		// show shopping cart model window
+
 		let skuKey = "";
 		let item = null;
 		let cartObj = null;
@@ -31,13 +37,13 @@ export class ProdUtil {
 		  		dividerLineNo = lineNo + '-hr';
 
 		  		if (i > 0) {
-					$('.modal-body').append('<hr id="' + dividerLineNo + '" class="modal-item">');
+					$('.modal-items').append('<hr id="' + dividerLineNo + '" class="modal-item">');
 		  		}
 
-				$('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">'
+				$('.modal-items').append('<div id="' + lineNo + '" class="modal-item flex">'
 					+ '<div>SKU : ' + skuKey + '</div>'
 					+ '<div>QUANTITY : <input type="text" class="cart-quantity" maxlength="2" value="' + cartObj.quantity + '"></div>'
-					+ '<div>TOTAL : $<span>' + cartObj.total + '</span></div>'
+					+ '<div>TOTAL : $<span>' + cartObj.total.toFixed(2) + '</span></div>'
 					+ '<div><button type="button" class="update-button" data-sku="' + skuKey + '">UPDATE</button>'
 					+ '<button type="button" class="remove-button" data-sku="' + skuKey + '">REMOVE</button></div>'
 					+ '</div>');
@@ -52,20 +58,20 @@ export class ProdUtil {
 
 		this.setCartTotal();
 
-		// Get the modal
+		// get the modal
 		let modal = document.getElementById('myModal');
 
-		// Get the <span> element that closes the modal
+		// get the <span> element that closes the modal
 		let span = document.getElementsByClassName("close")[0];
 
 		modal.style.display = "block";
 
-		// When the user clicks on <span> (x), close the modal
+		// when the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 		    modal.style.display = "none";
 		}
 
-		// When the user clicks anywhere outside of the modal, close it
+		// when the user clicks anywhere outside of the modal, close it
 		window.onclick = function(event) {
 		    if (event.target == modal) {
 		        modal.style.display = "none";
@@ -74,6 +80,8 @@ export class ProdUtil {
 	}
 
 	addCartItem () {
+		// add item to shopping cart
+
 		let skuKey = $(this.x.target).data('sku');
 		let price = $(this.x.target).data('price');
 
@@ -108,9 +116,13 @@ export class ProdUtil {
 		console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 
 		this.setItemCount();
+		
+		alert("The item has been added to the cart.")
 	}
 
 	updateCartItem () {
+		// update shopping cart item quantity
+
 		let lineNo = $(this.x.target).parent().parent().attr("id");
 		let skuKey = $(this.x.target).data('sku');
 		let quantity = $(this.x.target).parent().parent().find("input").val();
@@ -180,6 +192,8 @@ export class ProdUtil {
 	}
 
 	setItemCount () {
+		// set shopping cart item count
+
 		let x = document.getElementById("itemCount");
 		let itemCount = sessionStorage.length;
 
@@ -197,13 +211,17 @@ export class ProdUtil {
 	}
 
 	setCartTotal () {
+		// set shopping cart totals
+
 		let skuKey = "";
 		let item = null;
 		let cartObj = null;
 		let totalItems = 0;
 		let totalAmount = 0;
+		let stripeAmount = 0;
 
 		$('#cart-total').remove();
+		$('#stripe-form').remove();
 
 		totalItems = sessionStorage.length;
 
@@ -220,34 +238,73 @@ export class ProdUtil {
 		$('.modal-header').append('<div id="cart-total" class="modal-item">'
 			+ '<p>YOUR ITEMS : <span>' + totalItems + '</span> | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>'
 			+ '</div>');
+
+		if (totalAmount > 0) {
+			stripeAmount = totalAmount * 100;
+
+			$('.stripe').append('<form id="stripe-form"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button"'
+  				+ ' data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"'
+  				+ ' data-amount="' + stripeAmount.toFixed(0) + '"'
+  				+ ' data-name="Stripe.com"'
+  				+ ' data-description="Card Payment"'
+  				+ ' data-image="https://stripe.com/img/documentation/checkout/marketplace.png"'
+  				+ ' data-locale="auto"'
+  				+ ' data-zip-code="true">'
+				+ '</script></form>');
+
+		}
 	}
 
 	setEmptyCart () {
-		$('.modal-body').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
+		// provide empty shopping cart message
+
+		$('.modal-items').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
 	}
 
 	validateQuantity () {
+		// validate shopping cart quantity
+
 		let keyCode = this.x.keyCode;
 		let ctrlCode = this.x.ctrlCode;
 		let metaKey = this.x.metaKey;
 		let shiftKey = this.x.shiftKey;
 
-        // Allow: backspace, delete, tab, escape, ansd enter
+        // allow: backspace, delete, tab, escape, ansd enter
         if ($.inArray(keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-             // Allow: Ctrl/cmd+A
+             // allow: Ctrl/cmd+A
             (keyCode == 65 && (ctrlKey === true || metaKey === true)) ||
-             // Allow: Ctrl/cmd+C
+             // allow: Ctrl/cmd+C
             (keyCode == 67 && (ctrlKey === true || metaKey === true)) ||
-             // Allow: Ctrl/cmd+X
+             // allow: Ctrl/cmd+X
             (keyCode == 88 && (ctrlKey === true || metaKey === true)) ||
-             // Allow: home, end, left, right
+             // allow: home, end, left, right
             (keyCode >= 35 && keyCode <= 39)) {
                  // let it happen, don't do anything
                  return;
         }
-        // Ensure that it is a number and stop the keypress
+        // ensure that it is a number and stop the keypress
         if ((shiftKey || (keyCode < 48 || keyCode > 57)) && (keyCode < 96 || keyCode > 105)) {
             this.x.preventDefault();
         }		
+	}
+
+	shopNow () {
+		// scroll to bottom of web page when "shop now" button clicked
+
+		window.scrollTo(0,document.body.scrollHeight);
+	}
+
+	emailSignup () {
+		// check for email signup
+
+		let emailAddress = $('#email').val();
+
+		if (emailAddress.length > 0) {
+			alert("Thank you for signing up.")
+		}
+		else
+		{
+			alert("Please enter a valid email address.")
+		}
 	}
 };

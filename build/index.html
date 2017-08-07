@@ -1,18 +1,20 @@
+<!-- index.html (Eric Gregor) -->
+<!DOCTYPE html>
 <html>
     <head>
         <title>Best Buy</title>
 		<link type="text/css" rel="stylesheet" href="./css/build.css" />
     </head>
     <body>
-		<!-- logo, shopping cart, and top navigation menu -->
+		<!-- shopping cart -->
 		<header class="flex flex-column">
-		<!-- <div class="flex flex-justify-center" style="background: green; border-radius: 50%; height: 5rem; width: 5rem;"> -->
 			<div class="flex flex-justify-end">
 				<div class="flex flex-justify-end shopping-cart">
 					<h4 id="itemCount" class="item-count-circle">0</h4>
 				</div>
 			</div>
 		</header>
+		<!-- banner -->
 		<banner class="flex flex-column">
 			<div class="flex flex-column">
 				<h1>WELCOME TO BESTBUY STORE</h1>
@@ -22,6 +24,7 @@
 				</div>
 			</div>
 		</banner>
+		<!-- about company -->
 		<section class="flex flex-column flex-justify-center about-company">
 			<div class="flex flex-justify-center">
 				<h1>WE SELL THE SAME STUFF AS BESTBUY, BUT WE'RE <span>BETTER</span></h1>
@@ -30,24 +33,25 @@
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 				</div>
 		</section>
+		<!-- shopping cart modal window -->
 		<section>
-			<!-- The Modal -->
 			<div id="myModal" class="modal">
-
-			  <!-- Modal content -->
-			  <div class="modal-content">
-			    <div class="modal-header">
-			      <span class="close">&times;</span>
-			      <h1>YOUR CART</h1>
-			    </div>
-			    <div class="modal-body">
-			    </div>
-			    <div class="modal-footer">
-			    </div>
-			  </div>
-
+			  	<div class="modal-content">
+			    	<div class="modal-header">
+			      		<span class="close">&times;</span>
+			      		<h1>YOUR CART</h1>
+			    	</div>
+				    <div class="modal-body">
+				    	<div class="modal-items">
+				    	</div>
+				    	<!-- stripe payment -->
+					    <div class="stripe flex flex-items-center">
+					    </div>
+				  	</div>
+				</div>
 			</div>
 		</section>
+		<!-- navigation menu (product categories) -->
         <section>
         	<div class="nav-menu flex flex-justify-center">
         		<div>
@@ -64,35 +68,20 @@
         		</div>
         	</div>
         </section>
+        <!-- products -->
         <section>
 	        <div class="carousel">
 	        </div>
         </section>
-			<!-- email -->
-			<!-- <main>
-			<section class="flex flex-justify-around flex-items-center flex-column color-white email-mobile email-tablet email-desktop">
-				<h2>Sign-up for <span class="playfair-bold">Updates</span></h2>
-				<h5>Stay updated on our latest product releases, be first to find out about upcoming sales, and get free style tips from our blog. Unsubscribe at any time.</h5>
-				<div class ="flex round-corner-mobile round-corner-tablet round-corner-desktop bg-color-white">
-					<input type="text" name="email-address" value="   Your Email" class="round-corner-mobile round-corner-tablet round-corner-desktop color-grey">
-					<button type="button" class="round-corner-mobile round-corner-tablet round-corner-desktop color-white bg-color-orange">Subscribe</button>
-				</div>
-			</section>
-			</main> -->
+        <!-- email signup -->
 		<footer class="flex flex-justify-around flex-items-center flex-column">
 			<h1>SIGN UP FOR UPDATES</h1>
 			<p>WE WILL NOT STOP EMAILING YOU</p>
 			<div class ="flex flex-justify-end email-signup">
-				<input type="text" name="email-address" value="   Enter your email">
+				<input id="email" type="text" name="email-address" placeholder="Enter your email">
 				<button type="button">SIGN UP</button>
 			</div>
 		</footer>
-		<!-- Google CDN for jQuery -->
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-		<!-- bxSlider Javascript file -->
-		<!-- <script src="js/jquery.bxslider.min.js"></script> -->
-		<!-- bxSlider CSS file -->
-		<!-- <link href="css/jquery.bxslider.css" rel="stylesheet" /> -->
 		<!-- JavaScript -->
         <script src="./js/bundle.js"></script>
     </body>

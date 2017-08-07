@@ -14171,14 +14171,16 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+// bestbuy.js (Eric Gregor)
+
 exports.default = function (obj) {
+    // BestBuy api call
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(obj.method || "GET", obj.url + '?apiKey=' + obj.api + '&format=json');
 
         xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 300) {
-                //console.log(xhr.response);
                 resolve(JSON.parse(xhr.response));
             } else {
                 reject(xhr.statusText);
@@ -14199,7 +14201,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Carousel = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // carousel.js (Eric Gregor)
 
 var _jquery = require("jquery");
 
@@ -14226,14 +14228,7 @@ var Carousel = exports.Carousel = function () {
 	_createClass(Carousel, [{
 		key: "getProducts",
 		value: function getProducts() {
-
 			// remove any previously inserted content to make sure that it doesn't interfere with new content
-
-			//if ($('.carousel-cell').length > 0) {
-			//	let elem = document.querySelector('.carousel');
-			//	let y = new Flickity(elem);
-			//	y.flickity('destroy');
-			//}
 
 			//$('.carousel-cell').remove();
 
@@ -14245,23 +14240,21 @@ var Carousel = exports.Carousel = function () {
 
 				(0, _jquery2.default)('.carousel').append('<div id="' + this.product["productId"] + '" class="carousel-cell"></div>');
 
-				this.updateProduct();
+				this.addProduct();
 			}
 
 			var elem = document.querySelector('.carousel');
-			//let flkty = new Flickity(elem);
 			var flkty = new _flickity2.default(elem, {
 				// options
 				cellAlign: 'left',
 				contain: true
 			});
-
-			//console.log(result);
 		}
 	}, {
-		key: "updateProduct",
-		value: function updateProduct() {
-			//$('#' + productId).addClass('product-box'); // add class to help identify inserted content
+		key: "addProduct",
+		value: function addProduct() {
+			// add product to carousel
+
 			(0, _jquery2.default)('#' + this.product["productId"]).append('<p></p>');
 			(0, _jquery2.default)('#' + this.product["productId"] + ' p:eq(0)').html(this.product["item"].manufacturer);
 			(0, _jquery2.default)('#' + this.product["productId"]).append('<p></p>');
@@ -14286,8 +14279,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*import Cart from "./cart";*/
-
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // index.js (Eric Gregor)
 
 var _jquery = require("jquery");
 
@@ -14314,10 +14306,6 @@ var App = function () {
 		this.category = "";
 		this.categoryId = "";
 
-		//this.initBBCall();
-		//let x = this.initBBCall();
-		//this.initBBCall();
-
 		this.categoryEventListen();
 		this.productUtilListen();
 	}
@@ -14325,23 +14313,16 @@ var App = function () {
 	_createClass(App, [{
 		key: "productUtilListen",
 		value: function productUtilListen() {
-			var listen = [{ className: "header", subClass: ".shopping-cart", eventName: "click", functionName: "showCart" }, { className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem" }, { className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity" }];
+			// load event listeners
+
+			var listen = [{ className: "header", subClass: ".shopping-cart", eventName: "click", functionName: "showCart" }, { className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem" }, { className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem" }, { className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem" }, { className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity" }, { className: "banner", subClass: "button", eventName: "click", functionName: "shopNow" }, { className: ".email-signup", subClass: "button", eventName: "click", functionName: "emailSignup" }];
 
 			var productUtil = new _produtil.ProdUtil();
-			//productUtil.quantity = 5;
 
 			var _loop = function _loop(i) {
-				//console.log(listen[i] == "")
 				(0, _jquery2.default)(listen[i].className).on(listen[i].eventName, listen[i].subClass, function (x) {
-					//let newQnt = $(x.target).parent().parent().find("input").val();
 					productUtil.x = x;
 					productUtil[listen[i].functionName]();
-					/*console.log(x.target);
-     console.log($(x.target));
-     console.log($(x.target).parent());
-     console.log($(x.target).parent().parent());
-     console.log($(x.target).parent().parent().find("input"));
-     console.log($(x.target).parent().parent().find("input").val());*/
 				});
 			};
 
@@ -14352,6 +14333,8 @@ var App = function () {
 	}, {
 		key: "getUrl",
 		value: function getUrl() {
+			// get url for product category
+
 			switch (this.category) {
 				case "LAPTOPS":
 					this.categoryId = 'abcat0502000';
@@ -14378,6 +14361,8 @@ var App = function () {
 		value: function categoryEventListen() {
 			var _this = this;
 
+			// event listener for navigation menu (product categories)
+
 			(0, _jquery2.default)(".nav-menu").on("click", ".nav-item", function (x) {
 				console.log((0, _jquery2.default)(x.target).text());
 				_this.category = (0, _jquery2.default)(x.target).text();
@@ -14387,10 +14372,9 @@ var App = function () {
 	}, {
 		key: "initBBCall",
 		value: function initBBCall() {
-			//console.log(this.getUrl("laptop"));
+			// initialize carousel with products
 
 			(0, _bestbuy2.default)({ url: this.getUrl(), api: this.apiKey }).then(function (data) {
-				/* fill carousel with products */
 				var cara = new _carousel.Carousel(data);
 				cara.getProducts();
 			}).catch(function (error) {
@@ -14416,7 +14400,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProdUtil = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // produtil.js (Eric Gregor)
 
 var _jquery = require("jquery");
 
@@ -14432,12 +14416,16 @@ var ProdUtil = exports.ProdUtil = function () {
 
 		this.x = "";
 
+		// initialize cart item count, based on session storage
+
 		this.setItemCount();
 	}
 
 	_createClass(ProdUtil, [{
 		key: "showCart",
 		value: function showCart() {
+			// show shopping cart model window
+
 			var skuKey = "";
 			var item = null;
 			var cartObj = null;
@@ -14460,10 +14448,10 @@ var ProdUtil = exports.ProdUtil = function () {
 					dividerLineNo = lineNo + '-hr';
 
 					if (i > 0) {
-						(0, _jquery2.default)('.modal-body').append('<hr id="' + dividerLineNo + '" class="modal-item">');
+						(0, _jquery2.default)('.modal-items').append('<hr id="' + dividerLineNo + '" class="modal-item">');
 					}
 
-					(0, _jquery2.default)('.modal-body').append('<div id="' + lineNo + '" class="modal-item flex">' + '<div>SKU : ' + skuKey + '</div>' + '<div>QUANTITY : <input type="text" class="cart-quantity" maxlength="2" value="' + cartObj.quantity + '"></div>' + '<div>TOTAL : $<span>' + cartObj.total + '</span></div>' + '<div><button type="button" class="update-button" data-sku="' + skuKey + '">UPDATE</button>' + '<button type="button" class="remove-button" data-sku="' + skuKey + '">REMOVE</button></div>' + '</div>');
+					(0, _jquery2.default)('.modal-items').append('<div id="' + lineNo + '" class="modal-item flex">' + '<div>SKU : ' + skuKey + '</div>' + '<div>QUANTITY : <input type="text" class="cart-quantity" maxlength="2" value="' + cartObj.quantity + '"></div>' + '<div>TOTAL : $<span>' + cartObj.total.toFixed(2) + '</span></div>' + '<div><button type="button" class="update-button" data-sku="' + skuKey + '">UPDATE</button>' + '<button type="button" class="remove-button" data-sku="' + skuKey + '">REMOVE</button></div>' + '</div>');
 
 					console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 				}
@@ -14473,20 +14461,20 @@ var ProdUtil = exports.ProdUtil = function () {
 
 			this.setCartTotal();
 
-			// Get the modal
+			// get the modal
 			var modal = document.getElementById('myModal');
 
-			// Get the <span> element that closes the modal
+			// get the <span> element that closes the modal
 			var span = document.getElementsByClassName("close")[0];
 
 			modal.style.display = "block";
 
-			// When the user clicks on <span> (x), close the modal
+			// when the user clicks on <span> (x), close the modal
 			span.onclick = function () {
 				modal.style.display = "none";
 			};
 
-			// When the user clicks anywhere outside of the modal, close it
+			// when the user clicks anywhere outside of the modal, close it
 			window.onclick = function (event) {
 				if (event.target == modal) {
 					modal.style.display = "none";
@@ -14496,6 +14484,8 @@ var ProdUtil = exports.ProdUtil = function () {
 	}, {
 		key: "addCartItem",
 		value: function addCartItem() {
+			// add item to shopping cart
+
 			var skuKey = (0, _jquery2.default)(this.x.target).data('sku');
 			var price = (0, _jquery2.default)(this.x.target).data('price');
 
@@ -14529,10 +14519,14 @@ var ProdUtil = exports.ProdUtil = function () {
 			console.log("sku: " + skuKey + ", price: " + cartObj.price + ", quantity: " + cartObj.quantity + ", total: " + cartObj.total);
 
 			this.setItemCount();
+
+			alert("The item has been added to the cart.");
 		}
 	}, {
 		key: "updateCartItem",
 		value: function updateCartItem() {
+			// update shopping cart item quantity
+
 			var lineNo = (0, _jquery2.default)(this.x.target).parent().parent().attr("id");
 			var skuKey = (0, _jquery2.default)(this.x.target).data('sku');
 			var quantity = (0, _jquery2.default)(this.x.target).parent().parent().find("input").val();
@@ -14604,6 +14598,8 @@ var ProdUtil = exports.ProdUtil = function () {
 	}, {
 		key: "setItemCount",
 		value: function setItemCount() {
+			// set shopping cart item count
+
 			var x = document.getElementById("itemCount");
 			var itemCount = sessionStorage.length;
 
@@ -14620,13 +14616,17 @@ var ProdUtil = exports.ProdUtil = function () {
 	}, {
 		key: "setCartTotal",
 		value: function setCartTotal() {
+			// set shopping cart totals
+
 			var skuKey = "";
 			var item = null;
 			var cartObj = null;
 			var totalItems = 0;
 			var totalAmount = 0;
+			var stripeAmount = 0;
 
 			(0, _jquery2.default)('#cart-total').remove();
+			(0, _jquery2.default)('#stripe-form').remove();
 
 			totalItems = sessionStorage.length;
 
@@ -14640,36 +14640,66 @@ var ProdUtil = exports.ProdUtil = function () {
 			}
 
 			(0, _jquery2.default)('.modal-header').append('<div id="cart-total" class="modal-item">' + '<p>YOUR ITEMS : <span>' + totalItems + '</span> | ' + 'CART TOTAL : <span>$' + totalAmount.toFixed(2) + '</span></p>' + '</div>');
+
+			if (totalAmount > 0) {
+				stripeAmount = totalAmount * 100;
+
+				(0, _jquery2.default)('.stripe').append('<form id="stripe-form"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button"' + ' data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"' + ' data-amount="' + stripeAmount.toFixed(0) + '"' + ' data-name="Stripe.com"' + ' data-description="Card Payment"' + ' data-image="https://stripe.com/img/documentation/checkout/marketplace.png"' + ' data-locale="auto"' + ' data-zip-code="true">' + '</script></form>');
+			}
 		}
 	}, {
 		key: "setEmptyCart",
 		value: function setEmptyCart() {
-			(0, _jquery2.default)('.modal-body').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
+			// provide empty shopping cart message
+
+			(0, _jquery2.default)('.modal-items').append('<p class="modal-item">YOUR CART IS EMPTY.</p>');
 		}
 	}, {
 		key: "validateQuantity",
 		value: function validateQuantity() {
+			// validate shopping cart quantity
+
 			var keyCode = this.x.keyCode;
 			var ctrlCode = this.x.ctrlCode;
 			var metaKey = this.x.metaKey;
 			var shiftKey = this.x.shiftKey;
 
-			// Allow: backspace, delete, tab, escape, ansd enter
+			// allow: backspace, delete, tab, escape, ansd enter
 			if (_jquery2.default.inArray(keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-			// Allow: Ctrl/cmd+A
+			// allow: Ctrl/cmd+A
 			keyCode == 65 && (ctrlKey === true || metaKey === true) ||
-			// Allow: Ctrl/cmd+C
+			// allow: Ctrl/cmd+C
 			keyCode == 67 && (ctrlKey === true || metaKey === true) ||
-			// Allow: Ctrl/cmd+X
+			// allow: Ctrl/cmd+X
 			keyCode == 88 && (ctrlKey === true || metaKey === true) ||
-			// Allow: home, end, left, right
+			// allow: home, end, left, right
 			keyCode >= 35 && keyCode <= 39) {
 				// let it happen, don't do anything
 				return;
 			}
-			// Ensure that it is a number and stop the keypress
+			// ensure that it is a number and stop the keypress
 			if ((shiftKey || keyCode < 48 || keyCode > 57) && (keyCode < 96 || keyCode > 105)) {
 				this.x.preventDefault();
+			}
+		}
+	}, {
+		key: "shopNow",
+		value: function shopNow() {
+			// scroll to bottom of web page when "shop now" button clicked
+
+			window.scrollTo(0, document.body.scrollHeight);
+		}
+	}, {
+		key: "emailSignup",
+		value: function emailSignup() {
+			// check for email signup
+
+			var emailAddress = (0, _jquery2.default)('#email').val();
+
+			if (emailAddress.length > 0) {
+				alert("Thank you for signing up.");
+			} else {
+				alert("Please enter a valid email address.");
 			}
 		}
 	}]);

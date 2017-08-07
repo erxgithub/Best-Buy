@@ -1,4 +1,5 @@
-/*import Cart from "./cart";*/
+// index.js (Eric Gregor)
+
 import $ from "jquery";
 
 import request from "./bestbuy";
@@ -12,44 +13,37 @@ export default class App {
 		this.category = "";
 		this.categoryId = "";
 
-		//this.initBBCall();
-		//let x = this.initBBCall();
-		//this.initBBCall();
-
 		this.categoryEventListen();
 		this.productUtilListen();
 	}
 
 	productUtilListen () {
+		// load event listeners
+
 		let listen = [
 			{className: "header", subClass: ".shopping-cart", eventName: "click", functionName: "showCart"},
 			{className: ".carousel", subClass: ".add-button", eventName: "click", functionName: "addCartItem"},
 			{className: ".modal", subClass: ".update-button", eventName: "click", functionName: "updateCartItem"},
 			{className: ".modal", subClass: ".remove-button", eventName: "click", functionName: "removeCartItem"},
-			{className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity"}
+			{className: ".modal", subClass: ".cart-quantity", eventName: "keydown", functionName: "validateQuantity"},
+			{className: "banner", subClass: "button", eventName: "click", functionName: "shopNow"},
+			{className: ".email-signup", subClass: "button", eventName: "click", functionName: "emailSignup"}
 		];
 
 		let productUtil = new ProdUtil;
-		//productUtil.quantity = 5;
 
 		for (let i = 0; i < listen.length; i++)
 		{
-			//console.log(listen[i] == "")
 			$(listen[i].className).on(listen[i].eventName, listen[i].subClass, (x) => {
-				//let newQnt = $(x.target).parent().parent().find("input").val();
 				productUtil.x = x;
 				productUtil[listen[i].functionName]();
-				/*console.log(x.target);
-				console.log($(x.target));
-				console.log($(x.target).parent());
-				console.log($(x.target).parent().parent());
-				console.log($(x.target).parent().parent().find("input"));
-				console.log($(x.target).parent().parent().find("input").val());*/
 			});
 		}
 	}
 
 	getUrl () {
+		// get url for product category
+
 		switch (this.category) {
 			case "LAPTOPS":
 				this.categoryId = 'abcat0502000';
@@ -73,6 +67,8 @@ export default class App {
 	}
 
 	categoryEventListen () {
+		// event listener for navigation menu (product categories)
+
 		$(".nav-menu").on("click", ".nav-item", (x) => {
 			console.log($(x.target).text());
 			this.category = $(x.target).text();
@@ -81,11 +77,10 @@ export default class App {
 	}
 
 	initBBCall () {
-		//console.log(this.getUrl("laptop"));
+		// initialize carousel with products
 
 		request({url: this.getUrl(), api: this.apiKey})
 			.then(data => {
-				/* fill carousel with products */
 				let cara = new Carousel(data);
 				cara.getProducts();
 			})
