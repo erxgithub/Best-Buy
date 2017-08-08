@@ -14194,7 +14194,7 @@ exports.default = function (obj) {
 };
 
 },{}],21:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -14203,11 +14203,11 @@ exports.Carousel = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // carousel.js (Eric Gregor)
 
-var _jquery = require("jquery");
+var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _flickity = require("flickity");
+var _flickity = require('flickity');
 
 var _flickity2 = _interopRequireDefault(_flickity);
 
@@ -14226,11 +14226,11 @@ var Carousel = exports.Carousel = function () {
 	}
 
 	_createClass(Carousel, [{
-		key: "getProducts",
+		key: 'getProducts',
 		value: function getProducts() {
 			// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-			//$('.carousel-cell').remove();
+			(0, _jquery2.default)('.carousel-cell').remove();
 
 			// insert new content
 
@@ -14247,11 +14247,12 @@ var Carousel = exports.Carousel = function () {
 			var flkty = new _flickity2.default(elem, {
 				// options
 				cellAlign: 'left',
-				contain: true
+				contain: true,
+				groupCells: 2
 			});
 		}
 	}, {
-		key: "addProduct",
+		key: 'addProduct',
 		value: function addProduct() {
 			// add product to carousel
 

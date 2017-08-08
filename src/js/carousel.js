@@ -14,7 +14,7 @@ export class Carousel {
 	getProducts () {
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-		//$('.carousel-cell').remove();
+		$('.carousel-cell').remove();
 
 		// insert new content
 
@@ -32,7 +32,8 @@ export class Carousel {
 		let flkty = new Flickity( elem, {
 		  // options
 		  cellAlign: 'left',
-		  contain: true
+		  contain: true,
+		  groupCells: 2
 		});
 	}
 

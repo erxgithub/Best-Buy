@@ -21,7 +21,6 @@ $navMenuColor: white;
 $navMenuHoverColor: rgba(67, 101, 84, 1);
 $carouselCellBgColor: white;
 $carouselCellColor: rgba(116, 163, 139, 1);
-$carouselSelectedBgColor: #ED2;
 $carouselNumberColor: white;
 $carouselButtonBgColor: rgba(116, 163, 139, 1);
 $carouselButtonColor: white;
@@ -49,6 +48,7 @@ $emailButtonColor: white;
 
 * {
 	font-family: $mainFontName;
+	box-sizing: border-box;
 }
 
 header {
@@ -149,16 +149,19 @@ banner p {
 
 /* carousel (flickity) */
 
+.products {
+	padding: 0 0 4rem 0;
+}
+
 .carousel {
- 	background: #EEE;
+	padding: 3rem 10rem 3rem 10rem;
 }
 
 .carousel-cell {
- 	width: 28%;
+	width: 50%;
  	background-color: $carouselCellBgColor;
  	counter-increment: carousel-cell;
 	text-align: center;
-	padding: 2rem 0 2rem 0;
 
 	@include border-radius(5px);
 }
@@ -195,17 +198,13 @@ banner p {
 	color: $carouselButtonColor;
 	padding: 1rem 5rem 1rem 5rem;
 	word-spacing: 10px;
-	width: 100%
-}
-
-.carousel-cell.is-selected {
- 	background-color: $carouselSelectedBgColor;
+	width: 100%;
 }
 
 .carousel-cell:before {
  	display: block;
  	text-align: center;
- 	color: $carouselNumberColor; /*cell number */
+ 	color: $carouselNumberColor;
 }
 
 /* shopping cart modal window */
