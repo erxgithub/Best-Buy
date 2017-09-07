@@ -72,6 +72,8 @@ export default class App {
 		$(".nav-menu").on("click", ".nav-item", (x) => {
 			console.log($(x.target).text());
 			this.category = $(x.target).text();
+			$('.carousel-cell').addClass('off');
+
 			this.initBBCall();
 		});
 	}

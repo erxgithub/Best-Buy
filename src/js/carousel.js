@@ -14,7 +14,13 @@ export class Carousel {
 	getProducts () {
 		// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-		$('.carousel-cell').remove();
+		// if (this.isFlickity) {
+		// 	let $carousel = $('.carousel').flickity();
+		// 	$carousel.flickity('destroy');
+		// 	this.isFlickity = false;
+		// }
+
+		//$('.carousel-cell').remove();
 
 		// insert new content
 
@@ -28,13 +34,34 @@ export class Carousel {
 				this.addProduct();
 		}
 
-		let elem = document.querySelector('.carousel');
-		let flkty = new Flickity( elem, {
+		// let elem = document.querySelector('.carousel');
+		// let flkty = new Flickity( elem, {
+		//   // options
+		//   cellAlign: 'left',
+		//   contain: true,
+		//   groupCells: 2
+		// });
+
+		let flkty = new Flickity( '.carousel', {
 		  // options
 		  cellAlign: 'left',
 		  contain: true,
 		  groupCells: 2
 		});
+
+		//$('.carousel-cell').addClass('off');
+
+		//let $carousel = $('.carousel').flickity();
+		//$carousel.flickity('reloadCells');
+
+		// $('.carousel').flickity({
+		//   // options
+		//   cellAlign: 'left',
+		//   contain: true,
+		//   groupCells: 2
+		// });
+
+		//this.isFlickity = true;
 	}
 
 	addProduct () {
@@ -52,4 +79,3 @@ export class Carousel {
 			+ this.product["item"].sku + '" data-price="' + this.product["item"].regularPrice + '">ADD TO CART</button>');
 	}
 };
-

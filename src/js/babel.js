@@ -14194,7 +14194,7 @@ exports.default = function (obj) {
 };
 
 },{}],21:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -14203,11 +14203,11 @@ exports.Carousel = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // carousel.js (Eric Gregor)
 
-var _jquery = require('jquery');
+var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _flickity = require('flickity');
+var _flickity = require("flickity");
 
 var _flickity2 = _interopRequireDefault(_flickity);
 
@@ -14226,11 +14226,17 @@ var Carousel = exports.Carousel = function () {
 	}
 
 	_createClass(Carousel, [{
-		key: 'getProducts',
+		key: "getProducts",
 		value: function getProducts() {
 			// remove any previously inserted content to make sure that it doesn't interfere with new content
 
-			(0, _jquery2.default)('.carousel-cell').remove();
+			// if (this.isFlickity) {
+			// 	let $carousel = $('.carousel').flickity();
+			// 	$carousel.flickity('destroy');
+			// 	this.isFlickity = false;
+			// }
+
+			//$('.carousel-cell').remove();
 
 			// insert new content
 
@@ -14243,16 +14249,37 @@ var Carousel = exports.Carousel = function () {
 				this.addProduct();
 			}
 
-			var elem = document.querySelector('.carousel');
-			var flkty = new _flickity2.default(elem, {
+			// let elem = document.querySelector('.carousel');
+			// let flkty = new Flickity( elem, {
+			//   // options
+			//   cellAlign: 'left',
+			//   contain: true,
+			//   groupCells: 2
+			// });
+
+			var flkty = new _flickity2.default('.carousel', {
 				// options
 				cellAlign: 'left',
 				contain: true,
 				groupCells: 2
 			});
+
+			//$('.carousel-cell').addClass('off');
+
+			//let $carousel = $('.carousel').flickity();
+			//$carousel.flickity('reloadCells');
+
+			// $('.carousel').flickity({
+			//   // options
+			//   cellAlign: 'left',
+			//   contain: true,
+			//   groupCells: 2
+			// });
+
+			//this.isFlickity = true;
 		}
 	}, {
-		key: 'addProduct',
+		key: "addProduct",
 		value: function addProduct() {
 			// add product to carousel
 
@@ -14367,6 +14394,8 @@ var App = function () {
 			(0, _jquery2.default)(".nav-menu").on("click", ".nav-item", function (x) {
 				console.log((0, _jquery2.default)(x.target).text());
 				_this.category = (0, _jquery2.default)(x.target).text();
+				(0, _jquery2.default)('.carousel-cell').addClass('off');
+
 				_this.initBBCall();
 			});
 		}
