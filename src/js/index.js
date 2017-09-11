@@ -45,9 +45,6 @@ export default class App {
 		// get url for product category
 
 		switch (this.category) {
-			case "LAPTOPS":
-				this.categoryId = 'abcat0502000';
-				break;
 			case "CELL PHONES":
 				this.categoryId = 'pcmcat209400050001';
 				break;
@@ -58,6 +55,7 @@ export default class App {
 				this.categoryId = 'abcat0204000';
 				break;
 			default:
+				// LAPTOPS
 				this.categoryId = 'abcat0502000';
 		}
 
@@ -72,7 +70,6 @@ export default class App {
 		$(".nav-menu").on("click", ".nav-item", (x) => {
 			console.log($(x.target).text());
 			this.category = $(x.target).text();
-			$('.carousel-cell').addClass('off');
 
 			this.initBBCall();
 		});

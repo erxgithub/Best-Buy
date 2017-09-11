@@ -14194,7 +14194,7 @@ exports.default = function (obj) {
 };
 
 },{}],21:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -14203,11 +14203,11 @@ exports.Carousel = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // carousel.js (Eric Gregor)
 
-var _jquery = require("jquery");
+var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _flickity = require("flickity");
+var _flickity = require('flickity');
 
 var _flickity2 = _interopRequireDefault(_flickity);
 
@@ -14216,7 +14216,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Carousel = exports.Carousel = function () {
-	function Carousel(result) {
+	function Carousel(result, className) {
 		_classCallCheck(this, Carousel);
 
 		this.product = [];
@@ -14226,17 +14226,14 @@ var Carousel = exports.Carousel = function () {
 	}
 
 	_createClass(Carousel, [{
-		key: "getProducts",
+		key: 'getProducts',
 		value: function getProducts() {
-			// remove any previously inserted content to make sure that it doesn't interfere with new content
+			// remove any previously inserted carousel cell content
+			// to make sure that it doesn't interfere with new content
 
-			// if (this.isFlickity) {
-			// 	let $carousel = $('.carousel').flickity();
-			// 	$carousel.flickity('destroy');
-			// 	this.isFlickity = false;
-			// }
-
-			//$('.carousel-cell').remove();
+			(0, _jquery2.default)('.carousel-cell p').remove();
+			(0, _jquery2.default)('.carousel-cell img').remove();
+			(0, _jquery2.default)('.carousel-cell button').remove();
 
 			// insert new content
 
@@ -14249,14 +14246,6 @@ var Carousel = exports.Carousel = function () {
 				this.addProduct();
 			}
 
-			// let elem = document.querySelector('.carousel');
-			// let flkty = new Flickity( elem, {
-			//   // options
-			//   cellAlign: 'left',
-			//   contain: true,
-			//   groupCells: 2
-			// });
-
 			var flkty = new _flickity2.default('.carousel', {
 				// options
 				cellAlign: 'left',
@@ -14264,22 +14253,15 @@ var Carousel = exports.Carousel = function () {
 				groupCells: 2
 			});
 
-			//$('.carousel-cell').addClass('off');
+			// remove any previously inserted carousel cells to
+			// make sure that it doesn't interfere with new content
 
-			//let $carousel = $('.carousel').flickity();
-			//$carousel.flickity('reloadCells');
-
-			// $('.carousel').flickity({
-			//   // options
-			//   cellAlign: 'left',
-			//   contain: true,
-			//   groupCells: 2
-			// });
-
-			//this.isFlickity = true;
+			(0, _jquery2.default)('.carousel-cell').addClass('carousel-remove');
+			(0, _jquery2.default)('.flickity-slider .carousel-cell').removeClass('carousel-remove');
+			(0, _jquery2.default)('.carousel-remove').remove();
 		}
 	}, {
-		key: "addProduct",
+		key: 'addProduct',
 		value: function addProduct() {
 			// add product to carousel
 
@@ -14364,9 +14346,6 @@ var App = function () {
 			// get url for product category
 
 			switch (this.category) {
-				case "LAPTOPS":
-					this.categoryId = 'abcat0502000';
-					break;
 				case "CELL PHONES":
 					this.categoryId = 'pcmcat209400050001';
 					break;
@@ -14377,6 +14356,7 @@ var App = function () {
 					this.categoryId = 'abcat0204000';
 					break;
 				default:
+					// LAPTOPS
 					this.categoryId = 'abcat0502000';
 			}
 
@@ -14394,7 +14374,6 @@ var App = function () {
 			(0, _jquery2.default)(".nav-menu").on("click", ".nav-item", function (x) {
 				console.log((0, _jquery2.default)(x.target).text());
 				_this.category = (0, _jquery2.default)(x.target).text();
-				(0, _jquery2.default)('.carousel-cell').addClass('off');
 
 				_this.initBBCall();
 			});

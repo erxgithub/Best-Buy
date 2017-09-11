@@ -4,7 +4,7 @@ import $ from "jquery";
 import Flickity from 'flickity';
 
 export class Carousel {
-	constructor (result) {
+	constructor (result, className) {
 		this.product = [];
 		this.result = result;
 
@@ -12,15 +12,12 @@ export class Carousel {
 	}
 
 	getProducts () {
-		// remove any previously inserted content to make sure that it doesn't interfere with new content
+		// remove any previously inserted carousel cell content
+		// to make sure that it doesn't interfere with new content
 
-		// if (this.isFlickity) {
-		// 	let $carousel = $('.carousel').flickity();
-		// 	$carousel.flickity('destroy');
-		// 	this.isFlickity = false;
-		// }
-
-		//$('.carousel-cell').remove();
+		$('.carousel-cell p').remove();
+		$('.carousel-cell img').remove();
+		$('.carousel-cell button').remove();
 
 		// insert new content
 
@@ -34,14 +31,6 @@ export class Carousel {
 				this.addProduct();
 		}
 
-		// let elem = document.querySelector('.carousel');
-		// let flkty = new Flickity( elem, {
-		//   // options
-		//   cellAlign: 'left',
-		//   contain: true,
-		//   groupCells: 2
-		// });
-
 		let flkty = new Flickity( '.carousel', {
 		  // options
 		  cellAlign: 'left',
@@ -49,19 +38,12 @@ export class Carousel {
 		  groupCells: 2
 		});
 
-		//$('.carousel-cell').addClass('off');
+		// remove any previously inserted carousel cells to
+		// make sure that it doesn't interfere with new content
 
-		//let $carousel = $('.carousel').flickity();
-		//$carousel.flickity('reloadCells');
-
-		// $('.carousel').flickity({
-		//   // options
-		//   cellAlign: 'left',
-		//   contain: true,
-		//   groupCells: 2
-		// });
-
-		//this.isFlickity = true;
+		$('.carousel-cell').addClass('carousel-remove');
+		$('.flickity-slider .carousel-cell').removeClass('carousel-remove');
+		$('.carousel-remove').remove();
 	}
 
 	addProduct () {
