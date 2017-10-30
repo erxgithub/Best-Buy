@@ -1,4 +1,4 @@
-# Project4 (Eric Gregor)
+# Best Buy (Eric Gregor)
 
 Best Buy Shopping Cart
 
